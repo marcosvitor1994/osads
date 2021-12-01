@@ -12,6 +12,7 @@ const Menu = () => {
                 <Nav className="me-auto">
                     <Link className="nav-link" to="/home">Orquestra</Link>
                     <Link className="nav-link" to="/partituras">Partituras</Link>
+                    <Link className="nav-link" to="/maestro">Maestro</Link>
                     <Link className="nav-link" to="/contato">Contato</Link>
                 </Nav>
             </Container>

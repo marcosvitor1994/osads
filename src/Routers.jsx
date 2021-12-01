@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom'
 import { Container } from 'react-bootstrap'
 import Inicio from './pages/Home'
 import Partituras from './pages/Partituras'
+import Maestro from './pages/Maestro'
 
 
 const Routers = () => {
@@ -11,6 +12,7 @@ const Routers = () => {
                 <Container className='md-3'>
                     <Routes >
                         <Route path="/home" element={<Inicio />} />
+                        <Route path="/maestro" element={<Maestro />} />
                         <Route path="/partituras" element={<Partituras />} />             
              
                     </Routes>
