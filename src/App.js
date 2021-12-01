@@ -1,13 +1,18 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { BrowserRouter } from 'react-router-dom';
 import './App.css';
 import Menu from './components/Menu';
+import Routers from './Routers';
 
 function App() {
   return (
     <div className="App">
       <>
-        <Menu />
-        <p>Teste 2</p>
+        <BrowserRouter>
+          <Menu />
+          <Routers />
+        </BrowserRouter>
+        
       </>
     </div>
   );
