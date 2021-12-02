@@ -5,6 +5,7 @@ import Inicio from './pages/Home'
 import Partituras from './pages/Partituras'
 import Maestro from './pages/Maestro'
 import Contato from './pages/Contato'
+import Teste from './pages/Teste'
 
 
 const Routers = () => {
@@ -15,7 +16,8 @@ const Routers = () => {
                         <Route path="/home" element={<Inicio />} />
                         <Route path="/maestro" element={<Maestro />} />
                         <Route path="/partituras" element={<Partituras />} />             
-                        <Route path="/contato" element={<Contato />} /> 
+                        <Route path="/contato" element={<Contato />} />
+                        <Route path="/teste" element={<Teste />} />  
                     </Routes>
                 </Container>            
         </>

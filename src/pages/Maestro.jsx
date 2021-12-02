@@ -1,33 +1,50 @@
-import React from 'react'
-import { Accordion, Form } from 'react-bootstrap'
-import Acordion from '../components/Acordion'
+import React from "react";
+import { Button, Col, Container, Form, Row } from "react-bootstrap";
+import Acordion from "../components/Acordion";
+
+
 
 const Maestro = () => {
-    return (
+
+
+
+  return (
+    <>
+      <p>Maestro</p>
+      <Acordion
+        key="0"
+        title="Violino - Partituras"
+        body={
         <>
-            <p>Maestro</p>
-            <Acordion 
-                key="0"
-                title="Violino - Partituras"
-                body={<Form.Group controlId="formFile" className="mb-3">
+            <Container>
+                <Row>
+                    <Col md={11}>
+                        <Form.Group controlId="formFile" className="mb-3">
                             <Form.Label></Form.Label>
                             <Form.Control type="file" />
-                        </Form.Group>}
-                    
-            />
-            <Acordion 
-                key="1"
-                title="Teclado - Partituras"
-                body={<Form.Group controlId="formFile" className="mb-3">
-                            <Form.Label></Form.Label>
-                            <Form.Control type="file" />
-                        </Form.Group>}
-                    
-            />
+                        </Form.Group>
+                    </Col>
+                    <Col md={1}>
+                        <Button className="mb-3" >Enviar</Button>
+                    </Col>
+                </Row>
+            </Container>
+          
+          
+        </>}
+      />
+      <Acordion
+        key="1"
+        title="Teclado - Partituras"
+        body={
+          <Form.Group controlId="formFile" className="mb-3">
+            <Form.Label></Form.Label>
+            <Form.Control type="file" />
+          </Form.Group>
+        }
+      />
+    </>
+  );
+};
 
-            
-        </>
-    )
-}
-
-export default Maestro
+export default Maestro;
