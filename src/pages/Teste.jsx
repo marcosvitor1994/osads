@@ -32,7 +32,8 @@ class Teste extends Component {
 
     // Request made to the backend api
     // Send formData object
-    uploads.saveFiles([this.state.selectedFile]);
+    const values = [this.state.selectedFile];
+    uploads.saveFiles(values);
     console.log(uploads.getFiles)
   };
   

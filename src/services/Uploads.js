@@ -1,10 +1,17 @@
+import localforage from "localforage";
+
 class StoredFiles {
     constructor(files) {
       this.files = files;
     }
   
     saveFiles(value) {
-      this.files = value;
+      this.files = localforage.setItem(value).then(function(value) {
+            localforage.LOCALSTORAGE(value)
+            console.log(value)
+      }).catch(function(err) {
+            console.log(err)
+      })
     }
   
     getFiles() {
