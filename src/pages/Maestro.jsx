@@ -5,9 +5,6 @@ import Acordion from "../components/Acordion";
 
 
 const Maestro = () => {
-
-
-
   return (
     <>
       <p>Maestro</p>
@@ -15,23 +12,22 @@ const Maestro = () => {
         key="0"
         title="Violino - Partituras"
         body={
-        <>
+          <>
             <Container>
-                <Row>
-                    <Col md={11}>
-                        <Form.Group controlId="formFile" className="mb-3">
-                            <Form.Label></Form.Label>
-                            <Form.Control type="file" />
-                        </Form.Group>
-                    </Col>
-                    <Col md={1}>
-                        <Button className="mb-3" >Enviar</Button>
-                    </Col>
-                </Row>
+              <Row>
+                <Col className="top" md={11}>
+                  <Form.Group controlId="formFile" className="mb-3">
+                    <Form.Label></Form.Label>
+                    <Form.Control type="file" />
+                  </Form.Group>
+                </Col>
+                <Col align="top" md={1}>
+                  <Button className="mb-3">Enviar</Button>
+                </Col>
+              </Row>
             </Container>
-          
-          
-        </>}
+          </>
+        }
       />
       <Acordion
         key="1"
@@ -43,6 +39,8 @@ const Maestro = () => {
           </Form.Group>
         }
       />
+
+      
     </>
   );
 };

@@ -4,7 +4,7 @@ import { Accordion } from 'react-bootstrap'
 const Acordion = (props) => {
     return (
         <>
-            <Accordion>
+            <Accordion defaultActiveKey="0">
             <Accordion.Item eventKey={props.key}>
                 <Accordion.Header>{props.title}</Accordion.Header>
                 <Accordion.Body>
