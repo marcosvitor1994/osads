@@ -1,6 +1,6 @@
+import axios from "axios";
 import React, { Component } from "react";
-import { Col, Container, Form, Row, Button } from "react-bootstrap";
-import uploads from "../services/Uploads";
+
 
 class Teste extends Component {
   state = {
@@ -16,25 +16,23 @@ class Teste extends Component {
 
   // On file upload (click the upload button)
   onFileUpload = () => {
+    
     // Create an object of formData
     const formData = new FormData();
-    
-
+  
     // Update the formData object
     formData.append(
       "myFile",
       this.state.selectedFile,
       this.state.selectedFile.name
     );
-
+  
     // Details of the uploaded file
     console.log(this.state.selectedFile);
-
+  
     // Request made to the backend api
     // Send formData object
-    const values = [this.state.selectedFile];
-    uploads.saveFiles(values);
-    console.log(uploads.getFiles)
+    axios.post("api/uploadfile", formData);
   };
   
 
@@ -69,19 +67,7 @@ class Teste extends Component {
   render() {
     return (
       <>
-            <Container>
-                <Row>
-                    <Col md={11}>
-                        <Form.Group controlId="formFile" className="mb-3">
-                            <Form.Label></Form.Label>
-                            <Form.Control type="file" onChange={this.onFileChange}/>
-                        </Form.Group>
-                    </Col>
-                    <Col md={1}>
-                        <Button className="mb-3" onClick={this.onFileUpload}>Enviar</Button>
-                    </Col>
-                </Row>
-            </Container>
+            
         <h1>GeeksforGeeks</h1>
         <h3>File Upload using React!</h3>
         <div>
