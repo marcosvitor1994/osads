@@ -6,12 +6,14 @@ class Teste extends Component {
   state = {
     // Initially, no file is selected
     selectedFile: null,
+    
   };
-
+  
   // On file select (from the pop up)
   onFileChange = (event) => {
     // Update the state
     this.setState({ selectedFile: event.target.files[0] });
+    
   };
 
   // On file upload (click the upload button)
@@ -19,12 +21,12 @@ class Teste extends Component {
     
     // Create an object of formData
     const formData = new FormData();
-  
+
     // Update the formData object
     formData.append(
       "myFile",
       this.state.selectedFile,
-      this.state.selectedFile.name
+      this.state.selectedFile.name,
     );
   
     // Details of the uploaded file
@@ -32,7 +34,7 @@ class Teste extends Component {
   
     // Request made to the backend api
     // Send formData object
-    axios.post("api/uploadfile", formData);
+    axios.get("https://APIUpload.marcosvitor6.repl.co/upload", formData);
   };
   
 
@@ -47,6 +49,8 @@ class Teste extends Component {
           <p>File Name: {this.state.selectedFile.name}</p>
 
           <p>File Type: {this.state.selectedFile.type}</p>
+
+          <p>URL: {this.state.selectedFile.webKitRelativePath}</p>
 
           <p>
             Last Modified:{" "}
