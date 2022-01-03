@@ -1,7 +1,7 @@
 
-import axios from "axios";
 import React, { Component } from "react";
-//import ApiUpload from "../services/Uploads";
+import ApiUpload from "../services/Uploads";
+
 
 
 
@@ -38,10 +38,7 @@ class Teste extends Component {
     // Request made to the backend api
     // Send formData object
     // https://APIUpload.marcosvitor6.repl.co/upload
-    const config = {
-      Headers: {'content-type': 'multipart/form-data'}
-    }
-    axios.post("https://APIUpload.marcosvitor6.repl.co/upload", formData, config);
+    ApiUpload.get("https://APIUpload.marcosvitor6.repl.co/upload", formData);
 
     
 
@@ -84,10 +81,10 @@ class Teste extends Component {
         <h1>GeeksforGeeks</h1>
         <h3>File Upload using React!</h3>
         <div>
-          <input name="input1" type="file" onChange={this.onFileChange} encType="multipart/form-data"/>
+          <input type="file" onChange={this.onFileChange}  />
           <button onClick={this.onFileUpload}>Upload!</button>
         </div>
-        
+        {this.fileData()}
       </>
     );
   }
