@@ -16,27 +16,24 @@ class App extends Component {
       f1.append( 
         "myFile", 
         this.state.selectedFile,
-        this.state.selectedFile.name 
-        
+        this.state.selectedFile.name     
       ); 
+      
      
-      console.log(f1.get);
+      console.log(this.state.selectedFile);
      
       fetch(
         "https://uploadFiles.marcosvitor6.repl.co/upload", 
         {
           method: 'POST',
-          body: this.state.selectedFile,
-        }       
+          body: f1,
+        }
         ).then((response) => response.json()
         ).then((result) => {
           console.log('Success: ', result);
         }).catch((error) => {
           console.error('Error: ', error);
         })
-        
-  
-
 
     }; 
      
@@ -76,7 +73,7 @@ class App extends Component {
               File Upload using React! 
             </h3> 
             <div> 
-                <input type="file" name='f1' onChange={this.onFileChange} encType='multipart/form-data'/> 
+                <input type="file" onChange={this.onFileChange}/> 
                 <button onClick={this.onFileUpload}> 
                   Upload! 
                 </button> 
