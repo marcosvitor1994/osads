@@ -1,96 +1,90 @@
+import React,{Component} from 'react'; 
+class App extends Component { 
 
-import axios from "axios";
-import React, { Component } from "react";
-//import ApiUpload from "../services/Uploads";
+    state = { 
+      selectedFile: null
+    }; 
+     
+    onFileChange = event => { 
+      this.setState({ selectedFile: event.target.files[0] }); 
+    }; 
+     
+    onFileUpload = () => { 
 
-
-
-class Teste extends Component {
-  state = {
-    // Initially, no file is selected
-    selectedFile: null,
-    
-  };
-  
-  // On file select (from the pop up)
-  onFileChange = (event) => {
-    // Update the state
-    this.setState({ selectedFile: event.target.files[0] });
-    
-  };
-
-  // On file upload (click the upload button)
-  onFileUpload = () => {
-    
-    // Create an object of formData
-    const formData = new FormData();
-
-    // Update the formData object
-    formData.append(
-      "myFile",
-      this.state.selectedFile,
-      this.state.selectedFile.name,
-    );
-  
-    // Details of the uploaded file
-    console.log(this.state.selectedFile);
-  
-    // Request made to the backend api
-    // Send formData object
-    // https://APIUpload.marcosvitor6.repl.co/upload
-    const config = {
-      Headers: {'content-type': 'multipart/form-data'}
-    }
-    axios.post("https://APIUpload.marcosvitor6.repl.co/upload", formData, config);
-
-    
-
-  };
-  
-
-  // File content to be displayed after
-  // file upload is complete
-  fileData = () => {
-    if (this.state.selectedFile) {
-      return (
-        <div>
-          <h2>File Details:</h2>
-
-          <p>File Name: {this.state.selectedFile.name}</p>
-
-          <p>File Type: {this.state.selectedFile.type}</p>
-
-
-          <p>
-            Last Modified:{" "}
-            {this.state.selectedFile.lastModifiedDate.toDateString()}
-          </p>
-        </div>
-      );
-    } else {
-      return (
-        <div>
-          <br />
-          <h4>Choose before Pressing the Upload button</h4>
-        </div>
-      );
-    }
-  };
-
-  render() {
-    return (
-      <>
-            
-        <h1>GeeksforGeeks</h1>
-        <h3>File Upload using React!</h3>
-        <div>
-          <input name="input1" type="file" onChange={this.onFileChange} encType="multipart/form-data"/>
-          <button onClick={this.onFileUpload}>Upload!</button>
-        </div>
+      const f1 = new FormData(); 
+     
+      f1.append( 
+        "myFile", 
+        this.state.selectedFile,
+        this.state.selectedFile.name 
         
-      </>
-    );
-  }
-}
+      ); 
+     
+      console.log(f1.get);
+     
+      fetch(
+        "https://uploadFiles.marcosvitor6.repl.co/upload", 
+        {
+          method: 'POST',
+          body: this.state.selectedFile,
+        }       
+        ).then((response) => response.json()
+        ).then((result) => {
+          console.log('Success: ', result);
+        }).catch((error) => {
+          console.error('Error: ', error);
+        })
+        
+  
 
-export default Teste;
+
+    }; 
+     
+    // File content to be displayed after 
+    // file upload is complete 
+    fileData = () => { 
+      if (this.state.selectedFile) { 
+          
+        return ( 
+          <div> 
+            <h2>File Details:</h2> 
+            <p>File Name: {this.state.selectedFile.name}</p> 
+            <p>File Type: {this.state.selectedFile.type}</p> 
+            <p> 
+              Last Modified:{" "} 
+              {this.state.selectedFile.lastModifiedDate.toDateString()} 
+            </p> 
+          </div> 
+        ); 
+      } else { 
+        return ( 
+          <div> 
+            <br /> 
+            <h4>Choose before Pressing the Upload button</h4> 
+          </div> 
+        ); 
+      } 
+    }; 
+     
+    render() { 
+      return ( 
+        <div> 
+            <h1> 
+              GeeksforGeeks 
+            </h1> 
+            <h3> 
+              File Upload using React! 
+            </h3> 
+            <div> 
+                <input type="file" name='f1' onChange={this.onFileChange} encType='multipart/form-data'/> 
+                <button onClick={this.onFileUpload}> 
+                  Upload! 
+                </button> 
+            </div> 
+          {this.fileData()} 
+        </div> 
+      ); 
+    } 
+  } 
+  
+  export default App; 

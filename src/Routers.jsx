@@ -22,7 +22,7 @@ const Routers = () => {
                         <Route path="/partituras" element={<Partituras />} />             
                         <Route path="/contato" element={<Contato />} />
                         <Route path="/agenda" element={<Agenda />} />
-                        <Route path="/teste" element={<Teste />} />  
+                        <Route path="/teste" element={<Teste />} />
                         
                     </Routes>
                 </Container>            
