@@ -84,8 +84,16 @@ const App = () => {
         
         axios.post('https://3000-indigo-platypus-sszf5uhk.ws-us27.gitpod.io/login', {data})
         .then((result) => {
+
+
+
+
           localStorage.setItem('token', result.data.token)
           sessionStorage.setItem('token', result.data.token)
+          localStorage.setItem('_role', result.data.user._role)
+          sessionStorage.setItem('_role', result.data.user._role)
+          localStorage.setItem('email', result.data.user.email)
+          sessionStorage.setItem('email', result.data.user.email)
           console.log('Resultado: ', result.data);
         }).catch((error) => {
           console.log(error.response.data.message)
