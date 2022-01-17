@@ -1,6 +1,5 @@
 import axios from 'axios';
 import React from 'react';
-//import ReactDOM from 'react-dom';
 
 const appStyle = {
     height: '250px',
@@ -65,7 +64,9 @@ const Form = ({onSubmit}) => {
         onSubmit(data);
     };
     return (
+      
       <form style={formStyle} onSubmit={handleSubmit} >
+        
         <Field ref={usernameRef} label="Email:" type="email" />
         <Field ref={passwordRef} label="Senha:" type="password" />
         <div>
@@ -78,16 +79,15 @@ const Form = ({onSubmit}) => {
 // Usage example:
 
 const App = () => {
+
     const handleSubmit = data => {
+        
         console.clear();
         console.log(data)       
         
         axios.post('https://3000-indigo-platypus-sszf5uhk.ws-us27.gitpod.io/login', {data})
         .then((result) => {
-
-
-
-
+          
           localStorage.setItem('token', result.data.token)
           sessionStorage.setItem('token', result.data.token)
           localStorage.setItem('_role', result.data.user._role)
@@ -95,6 +95,7 @@ const App = () => {
           localStorage.setItem('email', result.data.user.email)
           sessionStorage.setItem('email', result.data.user.email)
           console.log('Resultado: ', result.data);
+
         }).catch((error) => {
           console.log(error.response.data.message)
           alert(error.response.data.message);
@@ -102,6 +103,7 @@ const App = () => {
     };
     return (
       <div style={appStyle}>
+        
         <Form onSubmit={handleSubmit} />
       </div>
     );

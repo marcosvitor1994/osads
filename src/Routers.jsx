@@ -1,6 +1,7 @@
 import React from 'react'
 import { Routes, Route } from 'react-router-dom'
 import { Container } from 'react-bootstrap'
+
 import Inicio from './pages/Home'
 import Partituras from './pages/Partituras'
 import Maestro from './pages/Maestro'
