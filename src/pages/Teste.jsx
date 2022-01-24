@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React from 'react';
+import { useNavigate } from 'react-router-dom'
 
 const appStyle = {
     height: '250px',
@@ -70,22 +71,22 @@ const Form = ({onSubmit}) => {
         <Field ref={usernameRef} label="Email:" type="email" />
         <Field ref={passwordRef} label="Senha:" type="password" />
         <div>
-          <button style={submitStyle} type="submit">Submit</button>
+          <button style={submitStyle} type="submit">Entrar</button>
         </div>
       </form>
     );
 };
 
-// Usage example:
-
 const App = () => {
+  const navigate = useNavigate();
+
 
     const handleSubmit = data => {
         
         console.clear();
         console.log(data)       
         
-        axios.post('https://3000-indigo-platypus-sszf5uhk.ws-us27.gitpod.io/login', {data})
+        axios.post('https://3000-indigo-platypus-sszf5uhk.ws-us28.gitpod.io/login', {data})
         .then((result) => {
           
           localStorage.setItem('token', result.data.token)
@@ -96,8 +97,9 @@ const App = () => {
           sessionStorage.setItem('email', result.data.user.email)
           console.log('Resultado: ', result.data);
 
+          navigate('/partituras')
+
         }).catch((error) => {
-          console.log(error.response.data.message)
           alert(error.response.data.message);
         })
     };
