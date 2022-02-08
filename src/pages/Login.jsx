@@ -28,7 +28,7 @@ export default function Login() {
     console.clear();
     console.log(data);  
 
-    axios.post('https://3000-indigo-platypus-sszf5uhk.ws-us28.gitpod.io/login', {data})
+    axios.post('https://3000-indigo-platypus-sszf5uhk.ws-us30.gitpod.io/login', {data})
         .then((result) => {
           
           localStorage.setItem('token', result.data.token)
@@ -39,7 +39,7 @@ export default function Login() {
           sessionStorage.setItem('email', result.data.user.email)
           console.log('Resultado: ', result.data);
 
-          navigate('/partituras')
+          navigate('/home')
 
         }).catch((error) => {
           

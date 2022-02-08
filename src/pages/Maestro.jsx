@@ -57,7 +57,11 @@ const Maestro = () => {
   return (
     <>
       <p>Maestro</p>
-      <Acordion key='Violino 1' title="Violino 1 - Partituras" body={
+      <Container>
+        <Row>
+          <Col>
+          
+          <Acordion key='Violino 1' title="Violino 1 - Partituras" body={
           <>
             {/*adicionar arquivo*/}
             <Container>
@@ -80,7 +84,7 @@ const Maestro = () => {
             <Container>
                   <>
                   <br />
-                    <Table striped bordered hover>
+                    <Table responsive striped bordered hover>
                       <thead>
                         <tr>
                           <th>Nome</th>
@@ -111,27 +115,14 @@ const Maestro = () => {
           </>
         }
       />
-      <Acordion key='Teclado' title="Teclado - Partituras" body={
-        <>
-          <Container>
-            <Row>
-              <Col md={12}>
-                <Form.Group controlId="formFile">
-                  <Col md={10}>
-                    <Form.Control type="file" name='f1' onChange={onFileChange}/>
-                  </Col>
-                  <Col md={2}>
-                    <Button type="submit" onClick={onFileUpload}>Enviar</Button>
-                  </Col>
-                </Form.Group>
-              </Col>
-            </Row>
-          </Container>
-        </>
           
           
-        }
-      />
+          
+          </Col>
+        </Row>
+      </Container>
+      
+      
 
       
     </>
