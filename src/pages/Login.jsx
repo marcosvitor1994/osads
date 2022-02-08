@@ -4,6 +4,7 @@ import Button from "react-bootstrap/Button";
 import "./login.css";
 import axios from "axios";
 import { useNavigate } from "react-router";
+import { Col, Container, Row } from "react-bootstrap";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -31,11 +32,8 @@ export default function Login() {
     axios.post('https://3000-indigo-platypus-sszf5uhk.ws-us30.gitpod.io/login', {data})
         .then((result) => {
           
-          localStorage.setItem('token', result.data.token)
           sessionStorage.setItem('token', result.data.token)
-          localStorage.setItem('_role', result.data.user._role)
           sessionStorage.setItem('_role', result.data.user._role)
-          localStorage.setItem('email', result.data.user.email)
           sessionStorage.setItem('email', result.data.user.email)
           console.log('Resultado: ', result.data);
 
@@ -48,21 +46,61 @@ export default function Login() {
   }
 
   return (
-    <div className="Login">
-      <Form onSubmit={handleSubmit}>
-        <Form.Group size="lg" controlId="email">
-          <Form.Label>Email:</Form.Label>
-          <Form.Control autoFocus type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-        </Form.Group>
-        <Form.Group size="lg" controlId="password">
-          <Form.Label>Senha:</Form.Label>
-          <Form.Control type="password" value={senha} onChange={(e) => setSenha(e.target.value)} />
-        </Form.Group>
+    <>
+      <Container>
         <br />
-        <Button block type="submit" disabled={!validateForm()}>
-          Entrar
-        </Button>
-      </Form>
-    </div>
+        <Row className="row d-flex justify-content-center">
+            <Col className="col-md-6">
+
+              <Form onSubmit={handleSubmit}>
+                <Form.Group  controlId="email" className="form-group">
+                  <Container>
+                    <Row>
+                      <Col md={2}>
+                        <Form.Label>Email:</Form.Label>
+                      </Col>
+                      <Col md={10}>
+                        <Form.Control autoFocus type="email" className="form-control" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
+                      </Col>
+                    </Row>
+                  </Container>                 
+                </Form.Group>
+        <br />
+                <Form.Group controlId="password" className="form-group">
+                  <Container>
+                    <Row>
+                      <Col md={2}>
+                        <Form.Label>Senha:</Form.Label>
+                      </Col>
+                      <Col md={10}> 
+                        <Form.Control type="password" value={senha} onChange={(e) => setSenha(e.target.value)} placeholder="Senha"/>
+                      </Col>
+                    </Row>
+                  </Container>
+                </Form.Group>
+                <br />
+                <Container>
+                  <Row className="row d-flex justify-content-center">
+                    <Col md={4}>
+                      <div className="d-grid">
+                        <Button type="submit" disabled={!validateForm()}>
+                          Entrar
+                        </Button>
+                        
+                      </div>
+                    </Col>
+                  </Row>
+                </Container>
+                
+              </Form>
+            
+            </Col>
+
+        </Row>
+
+      </Container>
+    </>
+    
+    
   );
 }

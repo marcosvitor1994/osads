@@ -3,7 +3,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom'
 
 const appStyle = {
-    height: '250px',
+    height: '350px',
     display: 'flex'
 };
 
@@ -13,14 +13,14 @@ const formStyle = {
     border: '1px solid #c9c9c9',
     borderRadius: '5px',
     background: '#f5f5f5',
-    width: '220px',
+    width: '450px',
     display: 'block'
 };
 
 const labelStyle = {
-    margin: '10px 0 5px 0',
+    margin: '15px 0 5px 0',
     fontFamily: 'Arial, Helvetica, sans-serif',
-    fontSize: '15px',
+    fontSize: '16px',
 };
 
 const inputStyle = {

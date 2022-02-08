@@ -7,6 +7,11 @@ import Acordion from "../components/Acordion";
 const Maestro = () => {
 	const [state, setState] = useState({ selectedFile: null });
   const [detalhes, setDetalhes] = useState([]);
+
+  //validar se tem algum arquivo no form
+  function validateForm() {
+    return  state.selectedFile != null;
+  }
   
   //alimentando tabela de arquivos
   useEffect(() => {
@@ -73,7 +78,7 @@ const Maestro = () => {
                         <input type="file" className="form-control" onChange={onFileChange}/>
                       </Col>
                       <Col md={2} align='right' className="d-grid gap-2">                                    
-                          <Button className="btn btn-primary" onClick={onFileUpload} >Enviar</Button>                                         
+                          <Button className="btn btn-primary" onClick={onFileUpload} disabled={!validateForm()}>Enviar</Button>                                         
                       </Col>
                     </Row>
                   </Form>                  
