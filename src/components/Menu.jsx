@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 const Menu = () => {
     return (
         <>  
-        <Navbar bg="dark" variant="dark" expand='lg'> 
+        <Navbar bg="dark" variant="dark" expand='lg' sticky="top"> 
             <Container fluid>
                    
                         <Navbar.Toggle aria-controls="navbarScroll" />

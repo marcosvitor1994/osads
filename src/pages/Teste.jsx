@@ -1,114 +1,166 @@
-import axios from 'axios';
-import React from 'react';
-import { useNavigate } from 'react-router-dom'
+import axios from "axios";
+import React, { useState } from "react";
+import { Button, Card, Col, Container, Form, Modal, Row, Table } from "react-bootstrap";
 
-const appStyle = {
-    height: '350px',
-    display: 'flex'
-};
+const Teste = () => {
+	const [state, setState] = useState({ selectedFile: null });
+  const [detalhes, setDetalhes] = useState([])
+  
+  //modal 
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = (props) => {
+    const pasta = {folder: `${props}`} //1bHqYWKtmZlENRtiD140CHeOMt4-NW4q9
+    axios.post('https://uploadFiles.marcosvitor6.repl.co/upload/list', {pasta}).then((result) => {
+      setDetalhes(result.data)
+      console.log(result.data)
+    }).catch((error) => {      
+      console.log(error)
+    })
+    setShow(true);
+  };
 
-const formStyle = {
-    margin: 'auto',
-    padding: '10px',
-    border: '1px solid #c9c9c9',
-    borderRadius: '5px',
-    background: '#f5f5f5',
-    width: '450px',
-    display: 'block'
-};
+  //validar se tem algum arquivo no form
+  function validateForm() {
+    return  state.selectedFile != null;
+  }
+  
+   
+  //fazendo uplado de arquivos
+  const onFileChange = (event) => { 
+    setState({ selectedFile: event.target.files[0] }); 
+  }; 
+   
+  const onFileUpload = () => { 
+    
+    const formData = new FormData(); 
+    formData.append( 
+      "myFile", 
+      state.selectedFile,
+      state.selectedFile.name
+    );    
+    fetch("https://uploadFiles.marcosvitor6.repl.co/upload",{ method: 'POST', body: formData, }
+      ).then((response) => response.json()
+      ).then((result) => {
+        console.log('Success: ', result);
+      }).catch((error) => {
+        console.error('Error: ', error);
+      })
+  
+  }; 
 
-const labelStyle = {
-    margin: '15px 0 5px 0',
-    fontFamily: 'Arial, Helvetica, sans-serif',
-    fontSize: '16px',
-};
+  //excluindo arquivos
+  const excluir = (id) =>{
+    
+      fetch(`https://uploadFiles.marcosvitor6.repl.co/file/${id}`, {method: 'DELETE'})
+      .then((response) => response.json())
+      .then((result)=>{alert(result)})
+      .catch((error)=>{
+      console.error('Error: ', error)
+    })
+    
+  }
 
-const inputStyle = {
-    margin: '5px 0 10px 0',
-    padding: '5px', 
-    border: '1px solid #bfbfbf',
-    borderRadius: '3px',
-    boxSizing: 'border-box',
-    width: '100%'
-};
-
-const submitStyle = {
-    margin: '10px 0 0 0',
-    padding: '7px 10px',
-    border: '1px solid #efffff',
-    borderRadius: '3px',
-    background: '#3085d6',
-    width: '100%', 
-    fontSize: '15px',
-    color: 'white',
-    display: 'block'
-};
-
-const Field = React.forwardRef(({label, type}, ref) => {
-    return (
-      <div>
-        <label style={labelStyle} >{label}</label>
-        <input ref={ref} type={type} style={inputStyle} />
-      </div>
-    );
-});
-
-const Form = ({onSubmit}) => {
-    const usernameRef = React.useRef();
-    const passwordRef = React.useRef();
-    const handleSubmit = e => {
-        e.preventDefault();
-        const data = {
-            email: usernameRef.current.value,
-            senha: passwordRef.current.value
-        };
-        onSubmit(data);
-    };
-    return (
+  return (
+    <>
       
-      <form style={formStyle} onSubmit={handleSubmit} >
-        
-        <Field ref={usernameRef} label="Email:" type="email" />
-        <Field ref={passwordRef} label="Senha:" type="password" />
-        <div>
-          <button style={submitStyle} type="submit">Entrar</button>
-        </div>
-      </form>
-    );
-};
-
-const App = () => {
-  const navigate = useNavigate();
-
-
-    const handleSubmit = data => {
-        
-        console.clear();
-        console.log(data)       
-        
-        axios.post('https://3000-indigo-platypus-sszf5uhk.ws-us28.gitpod.io/login', {data})
-        .then((result) => {
+      <p>Maestro</p>
+      
+    <br />
+      {//teste modal 
+      }   
+    <>
+      <Container>
+        <Row>
+          <Col md={4}>
+            <Card style={{ width: '18rem' }}>
+                <Card.Img variant="top" src="https://www.superprof.com.br/blog/wp-content/uploads/2018/11/encontrar-professor-de-violino-1060x707.jpg"/>               
+                <Card.Body>
+                    <Card.Title>Partituras de violino</Card.Title>
+                    <Card.Text>Violino</Card.Text>
+                       <Button
+                          className="bt bt-danger"
+                          variant="primary"
+                          onClick={handleShow}
+                        >
+                          Partituras
+                      </Button>
+              </Card.Body>
+            </Card>
+          </Col>
           
-          localStorage.setItem('token', result.data.token)
-          sessionStorage.setItem('token', result.data.token)
-          localStorage.setItem('_role', result.data.user._role)
-          sessionStorage.setItem('_role', result.data.user._role)
-          localStorage.setItem('email', result.data.user.email)
-          sessionStorage.setItem('email', result.data.user.email)
-          console.log('Resultado: ', result.data);
+        </Row>
+      </Container>
+    </>
+    <Modal show={show} onHide={handleClose} size="lg"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+    >
+        <Modal.Header closeButton>
+          <Modal.Title id="contained-modal-title-vcenter">Partituras</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Container>
+              <Row>
+                <Col>
+                  <Form>
+                    <Row>
+                      <Col md={10} >
+                        <input type="file" className="form-control" onChange={onFileChange}/>
+                      </Col>
+                      <Col md={2} align='right' className="d-grid gap-2">                                    
+                          <Button className="btn btn-primary" onClick={onFileUpload} disabled={!validateForm()}>Enviar</Button>                                         
+                      </Col>
+                    </Row>
+                  </Form>
+                </Col>
+              </Row>
+            </Container>
+          
+         
+            <Container>
+                  <>
+                  <br />
+                    <Table responsive striped bordered hover>
+                      <thead>
+                        <tr>
+                          <th>Nome</th>
+                          <th>Download</th>
+                          <th>Visualizar</th>
+                          <th>Excluir</th>
+                        </tr>
+                      </thead>
+                      <tbody align='left'>
+                        {detalhes.map((files) => (
+                          <tr>
+                            <td>{files.name}</td>
+                            <td>
+                              <a href={`${files.webContentLink}`}><Button className="btn btn-success">DownLoad</Button></a>
+                            </td>
+                            <td>
+                              <a href={`${files.webViewLink}`}><Button className="btn btn-primary">Vizualizar</Button></a>
+                            </td>
+                            <td>
+                              <Button className="btn btn-danger" onClick={() => excluir(files.id)}>Excluir</Button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </Table>
+                  </>
+            </Container>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button onClick={handleClose}>Close</Button>
+        </Modal.Footer>
+      </Modal>
 
-          navigate('/partituras')
 
-        }).catch((error) => {
-          alert(error.response.data.message);
-        })
-    };
-    return (
-      <div style={appStyle}>
-        
-        <Form onSubmit={handleSubmit} />
-      </div>
-    );
+
+          
+      
+    </>
+  );
 };
 
-export default App;
+export default Teste;

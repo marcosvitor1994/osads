@@ -5,7 +5,7 @@ const Acordion = (props) => {
     return (
         <>
             <Accordion defaultActiveKey="0">
-            <Accordion.Item eventKey={props.key}>
+            <Accordion.Item eventKey={props.key} onClick={props.click}>
                 <Accordion.Header>{props.title}</Accordion.Header>
                 <Accordion.Body>
                     {props.body}
