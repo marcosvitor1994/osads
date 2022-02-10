@@ -5,12 +5,17 @@ import { Button, Card, Col, Container, Form, Modal, Row, Table } from "react-boo
 const Teste = () => {
 	const [state, setState] = useState({ selectedFile: null });
   const [detalhes, setDetalhes] = useState([])
+  const [id, setId] = useState([])
+  const [folderID, setFolderID] = useState([])
+  
   
   //modal 
   const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
+  const handleClose = () => {setDetalhes([0]); setId([0]); setFolderID([0]); setShow(false)};
   const handleShow = (props) => {
     const pasta = {folder: `${props}`} //1bHqYWKtmZlENRtiD140CHeOMt4-NW4q9
+    console.log(pasta)
+    setFolderID(props)
     axios.post('https://uploadFiles.marcosvitor6.repl.co/upload/list', {pasta}).then((result) => {
       setDetalhes(result.data)
       console.log(result.data)
@@ -18,6 +23,7 @@ const Teste = () => {
       console.log(error)
     })
     setShow(true);
+    setId(pasta);
   };
 
   //validar se tem algum arquivo no form
@@ -32,28 +38,28 @@ const Teste = () => {
   }; 
    
   const onFileUpload = () => { 
-    
+    const folderId = id
+    console.log(folderId.folder)
     const formData = new FormData(); 
     formData.append( 
       "myFile", 
       state.selectedFile,
       state.selectedFile.name
-    );    
-    fetch("https://uploadFiles.marcosvitor6.repl.co/upload",{ method: 'POST', body: formData, }
-      ).then((response) => response.json()
-      ).then((result) => {
-        console.log('Success: ', result);
-      }).catch((error) => {
-        console.error('Error: ', error);
-      })
-  
+    );
+    
+    axios.post(`https://uploadFiles.marcosvitor6.repl.co/upload/folder/${folderId.folder}`, formData).then((result) => {
+      console.log('Success: ', result, handleShow(folderID))
+    }).catch((error) => {      
+      console.log(error)
+    })
+    
   }; 
 
   //excluindo arquivos
   const excluir = (id) =>{
     
       fetch(`https://uploadFiles.marcosvitor6.repl.co/file/${id}`, {method: 'DELETE'})
-      .then((response) => response.json())
+      .then((response) => response.json(handleShow(folderID)))
       .then((result)=>{alert(result)})
       .catch((error)=>{
       console.error('Error: ', error)
@@ -72,8 +78,11 @@ const Teste = () => {
     <>
       <Container>
         <Row>
-          <Col md={4}>
-            <Card style={{ width: '18rem' }}>
+          {
+            //violino
+          }
+          <Col md={3}>
+            <Card>
                 <Card.Img variant="top" src="https://www.superprof.com.br/blog/wp-content/uploads/2018/11/encontrar-professor-de-violino-1060x707.jpg"/>               
                 <Card.Body>
                     <Card.Title>Partituras de violino</Card.Title>
@@ -81,9 +90,28 @@ const Teste = () => {
                        <Button
                           className="bt bt-danger"
                           variant="primary"
-                          onClick={handleShow}
+                          onClick={() => handleShow('1bHqYWKtmZlENRtiD140CHeOMt4-NW4q9')}
                         >
-                          Partituras
+                          Partituras Violino
+                      </Button>
+              </Card.Body>
+            </Card>
+          </Col>
+          {
+            //trompete
+          }
+          <Col md={3}>
+            <Card>
+                <Card.Img variant="top" src="https://images.unsplash.com/photo-1511192336575-5a79af67a629?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dHJ1bXBldHxlbnwwfHwwfHw%3D&w=1000&q=80"/>               
+                <Card.Body>
+                    <Card.Title>Partituras de trompete</Card.Title>
+                    <Card.Text>Trompete</Card.Text>
+                       <Button
+                          className="bt bt-danger"
+                          variant="primary"
+                          onClick={() => handleShow('1N21JEvSL0z29Ag5XLOAJUvKV4kbtOKQF')}
+                        >
+                          Partituras Trompete
                       </Button>
               </Card.Body>
             </Card>
@@ -109,7 +137,7 @@ const Teste = () => {
                         <input type="file" className="form-control" onChange={onFileChange}/>
                       </Col>
                       <Col md={2} align='right' className="d-grid gap-2">                                    
-                          <Button className="btn btn-primary" onClick={onFileUpload} disabled={!validateForm()}>Enviar</Button>                                         
+                          <Button className="btn btn-primary" onClick={() => onFileUpload(folderID)} disabled={!validateForm()}>Enviar</Button>                                         
                       </Col>
                     </Row>
                   </Form>
@@ -130,7 +158,7 @@ const Teste = () => {
                           <th>Excluir</th>
                         </tr>
                       </thead>
-                      <tbody align='left'>
+                      <tbody align='center'>
                         {detalhes.map((files) => (
                           <tr>
                             <td>{files.name}</td>
