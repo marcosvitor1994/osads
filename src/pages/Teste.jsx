@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { Button, Card, Col, Container, Form, Modal, Row, Table } from "react-bootstrap";
+import { Button, Card, CardGroup, Col, Container, Form, Modal, Row, Table } from "react-bootstrap";
 
 const Teste = () => {
 	const [state, setState] = useState({ selectedFile: null });
@@ -81,12 +81,19 @@ const Teste = () => {
           {
             //violino
           }
-          <Col md={3}>
-            <Card>
-                <Card.Img variant="top" src="https://www.superprof.com.br/blog/wp-content/uploads/2018/11/encontrar-professor-de-violino-1060x707.jpg"/>               
+          <CardGroup>
+
+          <Col md={4}>
+
+            <Card border='dark' className='mb-3' style={{ width: "18rem" }}>
+                <Card.Img 
+                  variant="top" 
+                  className="test"
+                  onClick={() => handleShow('1bHqYWKtmZlENRtiD140CHeOMt4-NW4q9')} 
+                  src="https://www.superprof.com.br/blog/wp-content/uploads/2018/11/encontrar-professor-de-violino-1060x707.jpg"
+                  style={{height:'200px'}}
+                />               
                 <Card.Body>
-                    <Card.Title>Partituras de violino</Card.Title>
-                    <Card.Text>Violino</Card.Text>
                        <Button
                           className="bt bt-danger"
                           variant="primary"
@@ -100,23 +107,26 @@ const Teste = () => {
           {
             //trompete
           }
-          <Col md={3}>
-            <Card>
-                <Card.Img variant="top" src="https://images.unsplash.com/photo-1511192336575-5a79af67a629?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dHJ1bXBldHxlbnwwfHwwfHw%3D&w=1000&q=80"/>               
+          <Col md={4}>
+            <Card border='dark' className='mb-3' style={{ width: "18rem" }}>
+                <Card.Img variant="top" style={{height:'200px'}} onClick={() => handleShow('1N21JEvSL0z29Ag5XLOAJUvKV4kbtOKQF')} src="https://images.unsplash.com/photo-1511192336575-5a79af67a629?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dHJ1bXBldHxlbnwwfHwwfHw%3D&w=1000&q=80"/>               
                 <Card.Body>
-                    <Card.Title>Partituras de trompete</Card.Title>
-                    <Card.Text>Trompete</Card.Text>
+                    
+                    
                        <Button
                           className="bt bt-danger"
                           variant="primary"
                           onClick={() => handleShow('1N21JEvSL0z29Ag5XLOAJUvKV4kbtOKQF')}
+                          
                         >
                           Partituras Trompete
                       </Button>
               </Card.Body>
             </Card>
-          </Col>
           
+          </Col>
+          </CardGroup>
+
         </Row>
       </Container>
     </>
