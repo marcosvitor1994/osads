@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 
 
 const Menu = () => {
+    const email = sessionStorage.getItem('email')
     return (
         <>  
         <Navbar bg="dark" variant="dark" expand='lg' sticky="top"> 
@@ -26,16 +27,19 @@ const Menu = () => {
                                 <NavDropdown title="Gerencie" id="basic-nav-dropdown">
 
                                     <NavDropdown.Item><Link className='dropdown-item' to="/orquestra/partituras">Partituras</Link></NavDropdown.Item>
-                                    <NavDropdown.Item><Link className='dropdown-item' to="/orquestra/contatos">Contatos Enviados</Link></NavDropdown.Item>
+                                    <NavDropdown.Item><Link className='dropdown-item' to="/orquestra/contatos">Caixa de Entrada</Link></NavDropdown.Item>
                                     <NavDropdown.Item><Link className='dropdown-item' to="/orquestra/agenda">Agenda</Link></NavDropdown.Item>
-
                                     <NavDropdown.Divider />
                                     <NavDropdown.Item><Link className='dropdown-item' to="/orquestra/musicos">Músicos</Link></NavDropdown.Item>
                                     <NavDropdown.Item><Link className='dropdown-item' to="/orquestra/alunos">Alunos</Link></NavDropdown.Item>
 
                                 </NavDropdown>
+                                
+                                
                             </Nav>
-
+                            <Navbar.Text className="justify-content-end">
+                                <Link className="nav-link" to="/profile">{email}</Link>
+                            </Navbar.Text>
                         </Navbar.Collapse>                
                 
             </Container>

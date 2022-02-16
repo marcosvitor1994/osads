@@ -3,8 +3,8 @@ import FullCalendar from "@fullcalendar/react"; // must go before plugins
 import dayGridPlugin from "@fullcalendar/daygrid"; // a plugin!
 import { Button, Card, Col, Container, Form, Row, Table } from "react-bootstrap";
 import { useEffect } from "react";
-import axios from "axios";
 import Acordion from "../../components/Acordion";
+import ApiBase from "../../services/ApiBase";
 
 
 const GerenciarAgenda = () => {
@@ -12,7 +12,7 @@ const GerenciarAgenda = () => {
 
   useEffect(() => {
     const token = sessionStorage.getItem('token')
-    axios.get('https://3000-indigo-platypus-sszf5uhk.ws-us31.gitpod.io/events', {headers: {
+    ApiBase.get('/events', {headers: {
       'Authorization' : `Bearer ${token}`
     }}).then((result) => {
       setEventis(result.data.events)
@@ -41,7 +41,7 @@ const GerenciarAgenda = () => {
   const excluir = (id) =>{
     console.log(id)
     const token = sessionStorage.getItem('token')
-    axios.delete(`https://3000-indigo-platypus-sszf5uhk.ws-us31.gitpod.io/events/${id}`, {headers: {
+    ApiBase.delete(`/events/${id}`, {headers: {
       'Authorization' : `Bearer ${token}` }})
     .then((response) => alert(response.data.message, window.location.reload(false)))
     .catch((error)=>{
@@ -72,7 +72,7 @@ const GerenciarAgenda = () => {
     }
     console.log(envioEvento)
     const token = sessionStorage.getItem('token')
-    axios.post(`https://3000-indigo-platypus-sszf5uhk.ws-us31.gitpod.io/events`, {envioEvento},{headers: {
+    ApiBase.post(`/events`, {envioEvento},{headers: {
       'Authorization' : `Bearer ${token}` }}).then((response) => alert('Evento adicionado com sucesso!', window.location.reload(false)))
       .catch((error)=>{
       console.error('Error: ', error)
@@ -149,7 +149,7 @@ const GerenciarAgenda = () => {
               <thead align='left'>
                 <tr>
                   <th>Nome Evento</th>
-                  <th>Data</th>
+                  <th>Data/Hora</th>
                   <th>Excluir</th>
                   
                 </tr>
@@ -165,7 +165,7 @@ const GerenciarAgenda = () => {
                   </tr>
                 ))}
               </tbody>
-            </Table>
+              </Table>
             }/>
           
           <br />

@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import "./login.css";
-import axios from "axios";
 import { useNavigate } from "react-router";
 import { Col, Container, Row } from "react-bootstrap";
+import ApiBase from "../services/ApiBase";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -29,16 +29,20 @@ export default function Login() {
     console.clear();
     console.log(data);  
 
-    axios.post('https://3000-indigo-platypus-sszf5uhk.ws-us31.gitpod.io/login', {data})
+    ApiBase.post('/login', {data})
         .then((result) => {
           
+
+          console.log(result)
+          sessionStorage.setItem('_id', result.data.user._id)
           sessionStorage.setItem('token', result.data.token)
+          sessionStorage.setItem('instrumento', result.data.user.instrumento)
           sessionStorage.setItem('_role', result.data.user._role)
           sessionStorage.setItem('email', result.data.user.email)
           console.log('Resultado: ', result.data);
 
-          navigate('/home')
-
+          window.location.reload(navigate('/home'));
+          
         }).catch((error) => {
           
           alert(error.response.data.message);

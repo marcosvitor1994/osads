@@ -1,142 +1,81 @@
-import React, { useEffect, useState } from "react";
-import { Button, Card, Col, Container, Form, FormControl, InputGroup, Modal, Row, Table } from "react-bootstrap";
-import Acordion from "../../components/Acordion";
-import Forms from "../../components/forms";
-import ApiBase from "../../services/ApiBase";
+import React, { useState } from 'react'
+import { Button, Card, Col, Container, Form, FormControl, InputGroup, Row } from 'react-bootstrap'
+import ApiBase from '../services/ApiBase';
 
-const GerenteMusicos = () => {
-    
-    //Listando músicos
-    const [musicos, setMusicos] = useState([]);
-    useEffect(() => {
-        const token = sessionStorage.getItem('token')
-        ApiBase.get('/musicos', {headers: {
-          'Authorization' : `Bearer ${token}`
-        }}).then((result) => {
-            console.log(result.data.musicos)
-          setMusicos(result.data.musicos)
-        }).catch((error) => {      
-          console.log(error)
-        })
-      },[])
-  
-  //modal 
-  const [show, setShow] = useState(false);
-  const [detalhes, setDetalhes] = useState([])
-
-  const handleClose = () => {
-    setShow(false) 
-    setDetalhes(0)
-  }
-  const handleShow = (props) => {
-    const id = props
-    console.log(id)
-    const token = sessionStorage.getItem('token')
-    ApiBase.get(`/musicos/${id}`, {headers: {
-        'Authorization' : `Bearer ${token}` }})
-        .then((response) => {
-            console.log(response.data.musico)
-            setDetalhes(response.data.musico)
-        })
-        .catch((error)=>{
-        console.error('Error: ', error)
-        })  
-    setShow(true);
-  }
-  
-  
-  //novo músico
-  const [nome, setNome] = useState("");
-  const [email, setEmail] = useState("");
-  const [senha, setSenha] = useState("");
-  const [telefone, setTelefone] = useState("");
-  const [sexo, setSexo] = useState("");
-  const [cidade, setCidade] = useState("");
-  const [quadra, setQuadra] = useState("");
-  const [cep, setCep] = useState("");
-  const [estado, setEstado] = useState("");
-  const [numero, setNumero] = useState("");
-  const [complemento, setComplemento] = useState("");
-  const [instrumento, setInstrumento] = useState("");
-  const [dataNascimento, setDataNascimento] = useState("");
+const Forms = (props) => {
 
 
-  function handleSubmit(event) {
-    event.preventDefault();
-    const novoMusico = {
-        nome: nome,
-        email: email,
-        senha: senha,
-        telefone: telefone,
-        sexo: sexo,
-        cidade: cidade,
-        quadra: quadra,
-        cep: cep,
-        estado: estado,
-        numero: numero,
-        complemento: complemento,
-        instrumento: instrumento,
-        dataNascimento: dataNascimento,
-        
-    };
-    addMusico(novoMusico);
-  }
+    const [nome, setNome] = useState("");
+    const [email, setEmail] = useState("");
+    const [senha, setSenha] = useState("");
+    const [telefone, setTelefone] = useState("");
+    const [sexo, setSexo] = useState("");
+    const [cidade, setCidade] = useState("");
+    const [quadra, setQuadra] = useState("");
+    const [cep, setCep] = useState("");
+    const [estado, setEstado] = useState("");
+    const [numero, setNumero] = useState("");
+    const [complemento, setComplemento] = useState("");
+    const [instrumento, setInstrumento] = useState("");
+    const [dataNascimento, setDataNascimento] = useState("");
 
-  function addMusico(props) {
-    const envioMusico = {
-        nome: `${props.nome}`,
-        sexo: `${props.sexo}`,
-        email: `${props.email}`,
-        dataNascimento: `${props.dataNascimento}`,
-        telefone: `${props.telefone}`,
-        endereco: {
-            cidade: `${props.cidade}`,
-            quadra: `${props.quadra}`,
-            estado: `${props.estado}`,
-            cep: `${props.cep}`,
-            numero: `${props.numero}`,
-            complemento: `${props.complemento}`,
-            },
-        senha: `${props.senha}`,        
-        instrumento: `${props.instrumento}`      
-    };
-    console.log(envioMusico);
-
-    ApiBase.post(`/musicos`, {envioMusico}).then((response) =>
-        alert("Músico adicionado com sucesso!", window.location.reload(false))
-      ).catch((error) => {
-        console.error("Error: ", error);
-      })
-    }
-
-    //excluir músico
-    const excluir = (id) =>{
-        console.log(id)
-        const token = sessionStorage.getItem('token')
-        ApiBase.delete(`/musicos/${id}`, {headers: {
-          'Authorization' : `Bearer ${token}` }})
-        .then((response) => alert(response.data.message, window.location.reload(false)))
-        .catch((error)=>{
-        console.error('Error: ', error)
-        })  
+    function handleSubmit(event) {
+        event.preventDefault();
+        const novoMusico = {
+            nome: nome,
+            email: email,
+            senha: senha,
+            telefone: telefone,
+            sexo: sexo,
+            cidade: cidade,
+            quadra: quadra,
+            cep: cep,
+            estado: estado,
+            numero: numero,
+            complemento: complemento,
+            instrumento: instrumento,
+            dataNascimento: dataNascimento,
+            
+        };
+        addMusico(novoMusico);
       }
+    
+      function addMusico(props) {
+        const envioMusico = {
+            nome: `${props.nome}`,
+            sexo: `${props.sexo}`,
+            email: `${props.email}`,
+            dataNascimento: `${props.dataNascimento}`,
+            telefone: `${props.telefone}`,
+            endereco: {
+                cidade: `${props.cidade}`,
+                quadra: `${props.quadra}`,
+                estado: `${props.estado}`,
+                cep: `${props.cep}`,
+                numero: `${props.numero}`,
+                complemento: `${props.complemento}`,
+                },
+            senha: `${props.senha}`,        
+            instrumento: `${props.instrumento}`      
+        };
+        console.log(envioMusico);
+    
+        ApiBase.post(`/musicos`, {envioMusico}).then((response) =>
+            alert("Músico adicionado com sucesso!", window.location.reload(false))
+          ).catch((error) => {
+            console.error("Error: ", error);
+          })
+        }
+
+
 
   return (
-    <>
-      <br />
-      <p>Gerente de Músicos</p>
-      <br />
-      <Container>
-        <Row>
-          <Col>
-            <Acordion
-              title="Adicionar novo músico"
-              body={
+    
                 <Card>
-                  <Card.Header align="left">Novo Músico</Card.Header>
+                  <Card.Header align="left">{props.Header}</Card.Header>
                   <Card.Body align="left">
                     <Card.Text>
-                      <Form onSubmit={handleSubmit}>
+                      <Form onSubmit={handleSubmit}> 
                         <Container>
                           <Row>
                             <Col md={6}>
@@ -148,7 +87,7 @@ const GerenteMusicos = () => {
                                 <Form.Control
                                   type="text"
                                   placeholder="Nome"
-                                  value={nome}
+                                  value={props.nome}
                                   onChange={(e) => setNome(e.target.value)}
                                 />
                               </Form.Group>
@@ -162,7 +101,7 @@ const GerenteMusicos = () => {
                                     placeholder="exemplo@sistema.com"
                                     aria-label="Email"
                                     aria-describedby="basic-addon1"
-                                    value={email}
+                                    value={props.email}
                                     onChange={(e) => setEmail(e.target.value)}
                                     />
                                 </InputGroup>
@@ -173,7 +112,7 @@ const GerenteMusicos = () => {
                                     
                                     <FormControl
                                         type="password"
-                                        value={senha}
+                                        value={props.senha}
                                         placeholder="Senha"
                                         aria-label="Example text with button addon"
                                         aria-describedby="basic-addon1"
@@ -191,7 +130,7 @@ const GerenteMusicos = () => {
                                     type="text"
                                     placeholder="(00)00000-0000"
                                     aria-label="Email"
-                                    value={telefone}
+                                    value={props.telefone}
                                     onChange={(e) => setTelefone(e.target.value)}
                                     />
                                 </InputGroup>
@@ -202,7 +141,7 @@ const GerenteMusicos = () => {
                                 controlId="formBasicEmail"
                               >
                                 <Form.Label>Instrumento</Form.Label>
-                                <Form.Select aria-label="Default select example" value={instrumento}
+                                <Form.Select aria-label="Default select example" value={props.instrumento}
                                   onChange={(e) => setInstrumento(e.target.value)}>
                                     <option>Selecione o Instrumento</option>
                                     <option value="Violino1">Violino 1</option>
@@ -218,7 +157,7 @@ const GerenteMusicos = () => {
                                 <Form.Label>Data de Nascimento</Form.Label>
                                 <Form.Control
                                   type="date"
-                                  value={dataNascimento}
+                                  value={props.dataNascimento}
                                   onChange={(e) => setDataNascimento(e.target.value)}
                                 />
                               </Form.Group>
@@ -229,7 +168,7 @@ const GerenteMusicos = () => {
                                 controlId="formBasicEmail"
                               >
                                 <Form.Label>Sexo</Form.Label>
-                                <Form.Select aria-label="Default select example" value={sexo}
+                                <Form.Select aria-label="Default select example" value={props.sexo}
                                   onChange={(e) => setSexo(e.target.value)}>
                                     <option>Selecione o Sexo</option>
                                     <option value="F">F</option>
@@ -246,7 +185,7 @@ const GerenteMusicos = () => {
                                 <Form.Control
                                   type="text"
                                   placeholder="Quadra"
-                                  value={quadra}
+                                  value={props.quadra}
                                   onChange={(e) => setQuadra(e.target.value)}
                                 />
                               </Form.Group>
@@ -260,7 +199,7 @@ const GerenteMusicos = () => {
                                 <Form.Control
                                   type="text"
                                   placeholder="Número"
-                                  value={numero}
+                                  value={props.numero}
                                   onChange={(e) => setNumero(e.target.value)}
                                 />
                               </Form.Group>
@@ -274,7 +213,7 @@ const GerenteMusicos = () => {
                                 <Form.Control
                                   type="text"
                                   placeholder="Cidade"
-                                  value={cidade}
+                                  value={props.cidade}
                                   onChange={(e) => setCidade(e.target.value)}
                                 />
                               </Form.Group>
@@ -288,7 +227,7 @@ const GerenteMusicos = () => {
                                 <Form.Control
                                   type="text"
                                   placeholder="Estado"
-                                  value={estado}
+                                  value={props.estado}
                                   onChange={(e) => setEstado(e.target.value)}
                                 />
                               </Form.Group>
@@ -303,7 +242,7 @@ const GerenteMusicos = () => {
                                 <Form.Control
                                   type="text"
                                   placeholder="CEP"
-                                  value={cep}
+                                  value={props.cep}
                                   onChange={(e) => setCep(e.target.value)}
                                 />
                               </Form.Group>
@@ -317,7 +256,7 @@ const GerenteMusicos = () => {
                                 <Form.Control
                                   type="text"
                                   placeholder="Complemento"
-                                  value={complemento}
+                                  value={props.complemento}
                                   onChange={(e) => setComplemento(e.target.value)}
                                 />
                               </Form.Group>
@@ -340,81 +279,8 @@ const GerenteMusicos = () => {
                     orquestra muito mais que música ...
                   </Card.Footer>
                 </Card>
-              }
-            />
-            <br />
-            <Acordion title="Lista de Músicos da orquestra" body={
-                <Table responsive striped bordered hover>
-                <thead align='left'>
-                  <tr>
-                    <th>Nome</th>
-                    <th>Instrumento</th>
-                    <th>Telefone</th>
-                    <th>Email</th>
-                    <th>Vizualizar</th>
-                   
-                    
-                  </tr>
-                </thead>
-                <tbody align='left'>
-                  {musicos.map((files) => (
-                    <tr key={files.id}>
-                      <td>{files.nome}</td>
-                      <td>{files.instrumento}</td>
-                      <td>{files.telefone}</td>
-                      <td>{files.email}</td>
-                      <td>
-                        <Button className="btn btn-success" onClick={() => handleShow(`${files._id}`)}>Visualizar</Button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-                </Table>
-            }/>
-            <br />
-            <Acordion title="Contato de novos músicos" />
-          </Col>
-        </Row>
-      </Container>
-      <Modal show={show} onHide={handleClose} 
-      size="lg"
-      aria-labelledby="contained-modal-title-vcenter"
-      centered>
-        <Modal.Header closeButton>
-          <Modal.Title>Dados Músico</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {detalhes._id && (
-            <Forms onSubmit={handleSubmit} Header={`${detalhes.nome}`} 
-            nome={`${detalhes.nome}`} 
-            email={`${detalhes.email}`}
-            senha={`${detalhes.senha}`}
-            telefone={`${detalhes.telefone}`}
-            instrumento={`${detalhes.instrumento}`}
-            dataNascimento={`${detalhes.dataNascimento}`}
-            sexo={`${detalhes.sexo}`}
-            quadra={`${detalhes.endereco.quadra}`}
-            numero={`${detalhes.endereco.numero}`}
-            estado={`${detalhes.endereco.estado}`}
-            cidade={`${detalhes.endereco.cidade}`}
-            cep={`${detalhes.endereco.cep}`}
-            complemento={`${detalhes.endereco.complemento}`}
-            />
-            )
-          }
-          
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-          <Button variant="danger" onClick={() => handleClose} onChange={() => excluir(`${detalhes._id}`)}>
-            Excluir Músico
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    </>
-  );
-};
+              
+  )
+}
 
-export default GerenteMusicos;
+export default Forms

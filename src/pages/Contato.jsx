@@ -1,7 +1,7 @@
-import axios from 'axios';
 import React, { useState } from 'react'
 import { Button, Card, Col, Container, Form, Row } from 'react-bootstrap'
 import { useNavigate } from "react-router";
+import ApiBase from '../services/ApiBase';
 
 
 const Contato = () => {
@@ -24,7 +24,7 @@ const Contato = () => {
     function novoEvento (props){
         const contato = props
         console.log(props)
-        axios.post(`https://3000-indigo-platypus-sszf5uhk.ws-us31.gitpod.io/contato`, {contato})
+        ApiBase.post(`/contato`, {contato})
         .then((response) => alert('Contato enviado! Aguarde e entraremos em contato.', navigate('/home')))
         .catch((error)=>{
         console.error('Error: ', error)

@@ -15,6 +15,7 @@ import GerenteMusicos from './pages/Gerente/musicos'
 import GerenteContato from './pages/Gerente/GerenciarContatos'
 import GerenciarAgenda from './pages/Gerente/GerenciarAgenda'
 import FacaParte from './pages/FacaParte'
+import Profile from './pages/profile/profile'
 
 
 const Routers = () => {
@@ -39,7 +40,9 @@ const Routers = () => {
                         <Route path="/orquestra/partituras" element={<GerentePartitura />} />
                         <Route path="/orquestra/contatos" element={<GerenteContato />} />
                         <Route path="/orquestra/musicos" element={<GerenteMusicos />} />
-                        <Route path="/orquestra/alunos" element={<GerenteAlunos />} />
+                        <Route path="/orquestra/alunos" element={<GerenteAlunos />} />                    
+                        <Route path="/profile" element={<Profile />} />
+
 
                     </Routes>
         </>

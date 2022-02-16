@@ -3,7 +3,7 @@ import FullCalendar from "@fullcalendar/react"; // must go before plugins
 import dayGridPlugin from "@fullcalendar/daygrid"; // a plugin!
 import { Col, Container, Row,  } from "react-bootstrap";
 import { useEffect } from "react";
-import axios from "axios";
+import ApiBase from "../services/ApiBase";
 
 
 const Agenda = () => {
@@ -11,7 +11,7 @@ const Agenda = () => {
 
   useEffect(() => {
     const token = sessionStorage.getItem('token')
-    axios.get('https://3000-indigo-platypus-sszf5uhk.ws-us31.gitpod.io/events', {headers: {
+    ApiBase.get('/events', {headers: {
       'Authorization' : `Bearer ${token}`
     }}).then((result) => {
       setEventis(result.data.events)

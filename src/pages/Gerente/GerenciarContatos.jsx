@@ -1,6 +1,6 @@
-import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Button, Col, Container, Modal, Row, Table } from 'react-bootstrap';
+import ApiBase from '../../services/ApiBase';
 
 const GerenteContato = () => {
     const [show, setShow] = useState(false);
@@ -10,7 +10,7 @@ const GerenteContato = () => {
     const handleShow = (id) => {
         const token = sessionStorage.getItem('token')
 
-        axios.get(`https://3000-indigo-platypus-sszf5uhk.ws-us31.gitpod.io/contato/${id}`, {headers: {
+        ApiBase.get(`/contato/${id}`, {headers: {
             'Authorization' : `Bearer ${token}`}}
             ).then((data) => {
                 console.log(data.data.mensagem)
@@ -25,7 +25,7 @@ const GerenteContato = () => {
 
     useEffect(() => {
         const token = sessionStorage.getItem('token')
-        axios.get('https://3000-indigo-platypus-sszf5uhk.ws-us31.gitpod.io/contato', {headers: {
+        ApiBase.get('/contato', {headers: {
           'Authorization' : `Bearer ${token}`
         }}).then((result) => {
             console.log(result.data.contatos)
@@ -39,7 +39,7 @@ const GerenteContato = () => {
     const excluir = (id) =>{
         console.log(id)
         const token = sessionStorage.getItem('token')
-        axios.delete(`https://3000-indigo-platypus-sszf5uhk.ws-us31.gitpod.io/contato/${id}`, {headers: {
+        ApiBase.delete(`/contato/${id}`, {headers: {
           'Authorization' : `Bearer ${token}` }})
         .then((response) => alert(response.data.message, window.location.reload(false)))
         .catch((error)=>{
