@@ -1,51 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { Button, Card, Col, Container, Form, FormControl, InputGroup, Modal, Row, Table } from "react-bootstrap";
-import Acordion from "../../components/Acordion";
-import Forms from "../../components/forms";
-import ApiBase from "../../services/ApiBase";
+import React, { useState } from 'react'
+import { Button, Card, Col, Container, Form, FormControl, InputGroup, Row } from 'react-bootstrap'
+import ApiBase from '../../services/ApiBase';
 
-const GerenteMusicos = () => {
-    
-    //Listando músicos
-    const [musicos, setMusicos] = useState([]);
-    useEffect(() => {
-        const token = sessionStorage.getItem('token')
-        ApiBase.get('/musicos', {headers: {
-          'Authorization' : `Bearer ${token}`
-        }}).then((result) => {
-            console.log(result.data.musicos)
-          setMusicos(result.data.musicos)
-        }).catch((error) => {      
-          console.log(error)
-        })
-      },[])
-  
-  //modal 
-  const [show, setShow] = useState(false);
-  const [detalhes, setDetalhes] = useState([])
 
-  const handleClose = () => {
-    setShow(false) 
-    setDetalhes(0)
-  }
-  const handleShow = (props) => {
-    const id = props
-    console.log(id)
-    const token = sessionStorage.getItem('token')
-    ApiBase.get(`/musicos/${id}`, {headers: {
-        'Authorization' : `Bearer ${token}` }})
-        .then((response) => {
-            console.log(response.data.musico)
-            setDetalhes(response.data.musico)
-        })
-        .catch((error)=>{
-        console.error('Error: ', error)
-        })  
-    setShow(true);
-  }
-  
-  
-  //novo músico
+const FacaParteAluno = () => {
+ 
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
@@ -60,80 +19,63 @@ const GerenteMusicos = () => {
   const [instrumento, setInstrumento] = useState("");
   const [dataNascimento, setDataNascimento] = useState("");
 
-
   function handleSubmit(event) {
-    event.preventDefault();
-    const novoMusico = {
-        nome: nome,
-        email: email,
-        senha: senha,
-        telefone: telefone,
-        sexo: sexo,
-        cidade: cidade,
-        quadra: quadra,
-        cep: cep,
-        estado: estado,
-        numero: numero,
-        complemento: complemento,
-        instrumento: instrumento,
-        dataNascimento: dataNascimento,
-        
-    };
-    addMusico(novoMusico);
-  }
-
-  function addMusico(props) {
-    const envioMusico = {
-        nome: `${props.nome}`,
-        sexo: `${props.sexo}`,
-        email: `${props.email}`,
-        dataNascimento: `${props.dataNascimento}`,
-        telefone: `${props.telefone}`,
-        endereco: {
-            cidade: `${props.cidade}`,
-            quadra: `${props.quadra}`,
-            estado: `${props.estado}`,
-            cep: `${props.cep}`,
-            numero: `${props.numero}`,
-            complemento: `${props.complemento}`,
-            },
-        senha: `${props.senha}`,        
-        instrumento: `${props.instrumento}`      
-    };
-    console.log(envioMusico);
-
-    ApiBase.post(`/musicos`, {envioMusico}).then((response) =>
-        alert("Músico adicionado com sucesso!", window.location.reload(false))
-      ).catch((error) => {
-        console.error("Error: ", error);
-      })
+      event.preventDefault();
+      const novoAluno = {
+          nome: nome,
+          email: email,
+          senha: senha,
+          telefone: telefone,
+          sexo: sexo,
+          cidade: cidade,
+          quadra: quadra,
+          cep: cep,
+          estado: estado,
+          numero: numero,
+          complemento: complemento,
+          instrumento: instrumento,
+          dataNascimento: dataNascimento,
+          
+      };
+      addAluno(novoAluno);
     }
-
-    //excluir músico
-    const excluir = (id) =>{
-        console.log(id)
-        const token = sessionStorage.getItem('token')
-        ApiBase.delete(`/musicos/${id}`, {headers: {
-          'Authorization' : `Bearer ${token}` }})
-        .then((response) => alert(response.data.message, window.location.reload(false)))
-        .catch((error)=>{
-        console.error('Error: ', error)
-        })  
+  
+    function addAluno(props) {
+      const envioAluno = {
+          nome: `${props.nome}`,
+          sexo: `${props.sexo}`,
+          email: `${props.email}`,
+          dataNascimento: `${props.dataNascimento}`,
+          telefone: `${props.telefone}`,
+          endereco: {
+              cidade: `${props.cidade}`,
+              quadra: `${props.quadra}`,
+              estado: `${props.estado}`,
+              cep: `${props.cep}`,
+              numero: `${props.numero}`,
+              complemento: `${props.complemento}`,
+              },
+          senha: `${props.senha}`,        
+          instrumento: `${props.instrumento}`      
+      };
+      console.log(envioAluno);
+  
+      ApiBase.post(`/alunos`, {envioAluno}).then((response) =>
+          alert("Aluno adicionado com sucesso!", window.location.reload(false))
+        ).catch((error) => {
+          console.error("Error: ", error);
+        })
       }
 
+  
   return (
     <>
-      <br />
-      <p>Gerente de Músicos</p>
-      <br />
+    <br />
       <Container>
         <Row>
           <Col>
-            <Acordion
-              title="Adicionar novo músico"
-              body={
-                <Card>
-                  <Card.Header align="left">Novo Músico</Card.Header>
+          <Card>
+                  <Card.Header align="center">Informações do Aluno</Card.Header>
                   <Card.Body align="left">
                     <Card.Text>
                       <Form onSubmit={handleSubmit}>
@@ -328,7 +270,7 @@ const GerenteMusicos = () => {
                             <br />
                             <Col md={12}>
                               <Button variant="primary" type="submit">
-                                Adicionar Músico
+                                Enviar dados
                               </Button>
                             </Col>
                           </Row>
@@ -340,83 +282,21 @@ const GerenteMusicos = () => {
                     orquestra muito mais que música ...
                   </Card.Footer>
                 </Card>
-              }
-            />
-            <br />
-            <Acordion title="Lista de Músicos da orquestra" body={
-                <Table responsive striped bordered hover>
-                <thead align='left'>
-                  <tr>
-                    <th>Nome</th>
-                    <th>Instrumento</th>
-                    <th>Telefone</th>
-                    <th>Email</th>
-                    <th>Vizualizar</th>
-                   
-                    
-                  </tr>
-                </thead>
-                <tbody align='left'>
-                  {musicos.map((files) => (
-                    <tr key={files.id}>
-                      <td>{files.nome}</td>
-                      <td>{files.instrumento}</td>
-                      <td>{files.telefone}</td>
-                      <td>{files.email}</td>
-                      <td>
-                        <Button className="btn btn-success" onClick={() => handleShow(`${files._id}`)}>Visualizar</Button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-                </Table>
-            }/>
-            <br />
-            <Acordion title="Contato de novos músicos" />
+          
           </Col>
         </Row>
       </Container>
-      <Modal show={show} onHide={handleClose} 
-      size="lg"
-      aria-labelledby="contained-modal-title-vcenter"
-      centered>
-        <Modal.Header closeButton>
-          <Modal.Title>Dados Músico</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {detalhes._id && (
-            <Forms onSubmit={handleSubmit} Header={`${detalhes.nome}`} 
-            nome={`${detalhes.nome}`} 
-            email={`${detalhes.email}`}
-            senha={`${detalhes.senha}`}
-            telefone={`${detalhes.telefone}`}
-            instrumento={`${detalhes.instrumento}`}
-            dataNascimento={`${detalhes.dataNascimento}`}
-            sexo={`${detalhes.sexo}`}
-            quadra={`${detalhes.endereco.quadra}`}
-            numero={`${detalhes.endereco.numero}`}
-            estado={`${detalhes.endereco.estado}`}
-            cidade={`${detalhes.endereco.cidade}`}
-            cep={`${detalhes.endereco.cep}`}
-            complemento={`${detalhes.endereco.complemento}`}
-            botão='Atualizar informações'
+                
+              
+    
+    </>  
+    
+  )
+}
 
-            />
-            )
-          }
-          
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-          <Button variant="danger" onClick={() => handleClose} onChange={() => excluir(`${detalhes._id}`)}>
-            Excluir Músico
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    </>
-  );
-};
+export default FacaParteAluno
 
-export default GerenteMusicos;
+
+
+
+

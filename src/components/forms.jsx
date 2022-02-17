@@ -267,7 +267,7 @@ const Forms = (props) => {
                             <br />
                             <Col md={12}>
                               <Button variant="primary" type="submit">
-                                Adicionar Músico
+                                {props.botão}
                               </Button>
                             </Col>
                           </Row>

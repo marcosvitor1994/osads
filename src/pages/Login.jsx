@@ -28,11 +28,10 @@ export default function Login() {
 
     console.clear();
     console.log(data);  
-
+    
     ApiBase.post('/login', {data})
         .then((result) => {
           
-
           console.log(result)
           sessionStorage.setItem('_id', result.data.user._id)
           sessionStorage.setItem('token', result.data.token)
@@ -41,12 +40,23 @@ export default function Login() {
           sessionStorage.setItem('email', result.data.user.email)
           console.log('Resultado: ', result.data);
 
-          window.location.reload(navigate('/home'));
+          if (result.data.user._role === 'Musico'){
+            window.location.reload(navigate('/partituras'))
+            if (result.data.user.instrumento === 'Violino1'){
+              sessionStorage.setItem('pasta', '1bHqYWKtmZlENRtiD140CHeOMt4-NW4q9')
+            }
+            else if (result.data.user.instrumento === 'Trompete2'){
+              sessionStorage.setItem('pasta', '1N21JEvSL0z29Ag5XLOAJUvKV4kbtOKQF')
+            }
+          }
+          else if (result.data.user._role === 'Admin'){
+            window.location.reload(navigate('/orquestra/partituras'))
+          }
           
         }).catch((error) => {
-          
-          alert(error.response.data.message);
+          alert(error.response.data.message)
         })
+       
   }
 
   return (
@@ -105,7 +115,6 @@ export default function Login() {
 
       </Container>
     </>
-    
     
   );
 }

@@ -1,30 +1,60 @@
-import React from "react";
-import { Col, Container, Row } from "react-bootstrap";
-import Box from "../components/Box";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { Button, Col, Container, Row, Table } from "react-bootstrap";
+import Acordion from "../components/Acordion";
 
 const Partituras = () => {
+
+  const [partituras, setPartituras] = useState([]);
+  const [instrumento, setInstrumento] = useState([]);
+
+  useEffect(() => {
+    const idpasta = sessionStorage.getItem('pasta')  
+    const pasta = {folder: `${idpasta}`} //1bHqYWKtmZlENRtiD140CHeOMt4-NW4q9
+
+    axios.post('https://uploadFiles.marcosvitor6.repl.co/upload/list', {pasta}).then((result) => {
+      console.log(result.data)
+      setPartituras(result.data)
+      setInstrumento(sessionStorage.getItem('instrumento'))
+    }).catch((error) => {      
+      console.log(error)
+    })
+  },[])
+
   return (
     <>
-      <p>Partituras</p>
       <Container>      
         <Row>
-          <Col md={3}>
-            <Box
-              title="Violino"
-              img="https://www.superprof.com.br/blog/wp-content/uploads/2018/11/encontrar-professor-de-violino-1060x707.jpg"
-              text="Partituras de violino"
-              botton="Acesse Agora"
-              link="/home"
-            />
-          </Col>
-          <Col md={3}>
-            <Box
-              title="Maestro"
-              img="https://i0.wp.com/www.sabra.org.br/site/wp-content/uploads/2017/09/voce-entende-o-maestro-e-seus-gestos-20170920155615.jpg?fit=1920%2C1280&ssl=1"
-              text="Partitura Maestro"
-              link="/maestro"
-              botton="Acesse Agora"
-            />
+          <Col>
+
+          <br />
+          <Acordion title={`Partituras | ${instrumento}`} body={
+            <Table responsive striped bordered hover>
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>Download</th>
+                <th>Visualizar</th>
+              </tr>
+            </thead>
+            <tbody align='center'>
+              {partituras.map((files) => (
+                <tr>
+                  <td>{files.name}</td>
+                  <td>
+                    <a href={`${files.webContentLink}`}><Button className="btn btn-success">DownLoad</Button></a>
+                  </td>
+                  <td>
+                    <a href={`${files.webViewLink}`}><Button className="btn btn-primary">Vizualizar</Button></a>
+                  </td>
+                  
+                </tr>
+              ))}
+            </tbody>
+            </Table>
+          }/>
+                    
+
           </Col>
         </Row>
       </Container>
