@@ -18,6 +18,7 @@ import Profile from './pages/profile/profile'
 import MusicoRoute from './components/MusicoRoute'
 import FacaParteMusico from './pages/facaParte/FacaParteMusico'
 import FacaParteAluno from './pages/facaParte/FacaParteAluno'
+import GroupRoute from './components/GroupRoute'
 
 
 const Routers = () => {
@@ -57,8 +58,9 @@ const Routers = () => {
                         <Route path="/orquestra/musicos"  element={<PrivateRoute />}>
                             <Route path="/orquestra/musicos" element={<GerenteMusicos />} />                    
                         </Route>
-                                          
-                        <Route path="/profile" element={<Profile />} />
+                        <Route path="/profile"  element={<GroupRoute />}>
+                            <Route path="/profile"  element={<Profile />} />                    
+                        </Route>       
 
 
                     </Routes>

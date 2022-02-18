@@ -42,10 +42,10 @@ const Partituras = () => {
                 <tr>
                   <td>{files.name}</td>
                   <td>
-                    <a href={`${files.webContentLink}`}><Button className="btn btn-success">DownLoad</Button></a>
+                    <Button className="btn btn-success" onClick={() => window.open(`${files.webContentLink}`, '_blank')}>DownLoad</Button>
                   </td>
                   <td>
-                    <a href={`${files.webViewLink}`}><Button className="btn btn-primary">Vizualizar</Button></a>
+                    <Button className="btn btn-primary" onClick={() => window.open(`${files.webViewLink}`, '_blank')}>Vizualizar</Button>
                   </td>
                   
                 </tr>

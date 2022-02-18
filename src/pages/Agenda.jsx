@@ -58,9 +58,11 @@ const Agenda = () => {
               eventContent={renderEventContent}
               events={eventos}
             />
+
           </Col>
         </Row>
       </Container>
+    <br />
     </>
   );
 };

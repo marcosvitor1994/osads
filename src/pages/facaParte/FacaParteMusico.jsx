@@ -5,6 +5,12 @@ import ApiBase from '../../services/ApiBase';
 
 const FacaParteMusico = () => {
   
+  //senha
+  const [passwordShown, setPasswordShown] = useState(false);
+  const togglePassword = () => {
+    setPasswordShown(!passwordShown);
+  };
+
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
@@ -18,6 +24,7 @@ const FacaParteMusico = () => {
   const [complemento, setComplemento] = useState("");
   const [instrumento, setInstrumento] = useState("");
   const [dataNascimento, setDataNascimento] = useState("");
+
 
   function handleSubmit(event) {
       event.preventDefault();
@@ -59,6 +66,9 @@ const FacaParteMusico = () => {
           instrumento: `${props.instrumento}`      
       };
       console.log(envioMusico);
+
+      //mask
+      
   
       ApiBase.post(`/musicos`, {envioMusico}).then((response) =>
           alert("Músico adicionado com sucesso!", window.location.reload(false))
@@ -102,7 +112,7 @@ const FacaParteMusico = () => {
                                     <InputGroup.Text id="basic-addon1">@</InputGroup.Text>
                                     <FormControl
                                     type="email"
-                                    placeholder="exemplo@sistema.com"
+                                    placeholder="exemplo@email.com"
                                     aria-label="Email"
                                     aria-describedby="basic-addon1"
                                     value={email}
@@ -115,14 +125,14 @@ const FacaParteMusico = () => {
                                 <InputGroup className="mb-3">
                                     
                                     <FormControl
-                                        type="password"
+                                        type={passwordShown ? "text" : "password"}
                                         value={senha}
                                         placeholder="Senha"
                                         aria-label="Example text with button addon"
                                         aria-describedby="basic-addon1"
                                         onChange={(e) => setSenha(e.target.value)}
                                     />
-                                    <Button variant="outline-secondary" id="button-addon2">
+                                    <Button variant="outline-secondary" id="button-addon2" onClick={togglePassword}>
                                         Mostrar
                                     </Button>
                                 </InputGroup>
@@ -131,9 +141,9 @@ const FacaParteMusico = () => {
                                 <Form.Label>Telefone</Form.Label>
                                 <InputGroup className="mb-3">
                                     <FormControl
+                                    name="telefone"
                                     type="text"
                                     placeholder="(00)00000-0000"
-                                    aria-label="Email"
                                     value={telefone}
                                     onChange={(e) => setTelefone(e.target.value)}
                                     />

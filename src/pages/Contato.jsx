@@ -55,19 +55,19 @@ const Contato = () => {
                                             <Col md={6}>
                                             <Form.Group className="mb-3" controlId="formBasicEmail">
                                                 <Form.Label>Email</Form.Label>
-                                                <Form.Control type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)}/>                       
+                                                <Form.Control type="email" placeholder="exemplo@email.com" value={email} onChange={(e) => setEmail(e.target.value)}/>                       
                                             </Form.Group>
                                             </Col>
                                             <Col md={6}>
                                             <Form.Group className="mb-3" controlId="formBasicEmail">
                                                 <Form.Label>Telefone</Form.Label>
-                                                <Form.Control type="number" value={telefone} placeholder="Telefone" onChange={(e) => setTelefone(e.target.value)} />
+                                                <Form.Control type="texte" value={telefone} placeholder="(00)00000-0000" onChange={(e) => setTelefone(e.target.value)} />
                                             </Form.Group>
                                             </Col>
                                             <Col md={12}>
                                             <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
                                                 <Form.Label>Mensagem</Form.Label>
-                                                <Form.Control as="textarea" placeholder="Mensagem" value={mensagem} rows={3} onChange={(e) => setMensagem(e.target.value)} />
+                                                <Form.Control as="textarea" placeholder="Texto" value={mensagem} rows={3} onChange={(e) => setMensagem(e.target.value)} />
                                             </Form.Group>
                                             </Col>
                                             <Col>

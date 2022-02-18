@@ -3,7 +3,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import "./login.css";
 import { useNavigate } from "react-router";
-import { Col, Container, Row } from "react-bootstrap";
+import { Col, Container, InputGroup, Row } from "react-bootstrap";
 import ApiBase from "../services/ApiBase";
 
 export default function Login() {
@@ -14,6 +14,11 @@ export default function Login() {
   function validateForm() {
     return email.length > 0 && senha.length > 0;
   }
+
+  const [passwordShown, setPasswordShown] = useState(false);
+    const togglePassword = () => {
+      setPasswordShown(!passwordShown);
+  };
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -88,12 +93,15 @@ export default function Login() {
                         <Form.Label>Senha:</Form.Label>
                       </Col>
                       <Col md={10}> 
-                        <Form.Control type="password" value={senha} onChange={(e) => setSenha(e.target.value)} placeholder="Senha"/>
+                      <InputGroup className="mb-3">
+                        <Form.Control type={passwordShown ? "text" : "password"} value={senha} onChange={(e) => setSenha(e.target.value)} placeholder="Senha"/>
+                        <Button variant="outline-secondary" id="button-addon2" onClick={togglePassword}>Mostrar</Button>
+                      </InputGroup>
                       </Col>
                     </Row>
                   </Container>
                 </Form.Group>
-                <br />
+        <br />
                 <Container>
                   <Row className="row d-flex justify-content-center">
                     <Col md={4}>

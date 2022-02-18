@@ -4,6 +4,11 @@ import ApiBase from '../services/ApiBase';
 
 const Forms = (props) => {
 
+    const [passwordShown, setPasswordShown] = useState(false);
+    const togglePassword = () => {
+      setPasswordShown(!passwordShown);
+    };
+
 
     const [nome, setNome] = useState("");
     const [email, setEmail] = useState("");
@@ -98,7 +103,7 @@ const Forms = (props) => {
                                     <InputGroup.Text id="basic-addon1">@</InputGroup.Text>
                                     <FormControl
                                     type="email"
-                                    placeholder="exemplo@sistema.com"
+                                    placeholder="exemplo@email.com"
                                     aria-label="Email"
                                     aria-describedby="basic-addon1"
                                     value={props.email}
@@ -111,14 +116,14 @@ const Forms = (props) => {
                                 <InputGroup className="mb-3">
                                     
                                     <FormControl
-                                        type="password"
+                                        type={passwordShown ? "text" : "password"}
                                         value={props.senha}
                                         placeholder="Senha"
                                         aria-label="Example text with button addon"
                                         aria-describedby="basic-addon1"
                                         onChange={(e) => setSenha(e.target.value)}
                                     />
-                                    <Button variant="outline-secondary" id="button-addon2">
+                                    <Button variant="outline-secondary" id="button-addon2" onClick={togglePassword}>
                                         Mostrar
                                     </Button>
                                 </InputGroup>
