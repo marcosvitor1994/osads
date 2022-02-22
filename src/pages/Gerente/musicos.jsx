@@ -352,7 +352,6 @@ const GerenteMusicos = () => {
                     <th>Telefone</th>
                     <th>Email</th>
                     <th>Vizualizar</th>
-                   
                     
                   </tr>
                 </thead>
@@ -366,6 +365,7 @@ const GerenteMusicos = () => {
                       <td>
                         <Button className="btn btn-success" onClick={() => handleShow(`${files._id}`)}>Visualizar</Button>
                       </td>
+                      
                     </tr>
                   ))}
                 </tbody>

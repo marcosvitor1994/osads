@@ -4,7 +4,6 @@ import { Route, Routes } from 'react-router-dom'
 import Inicio from './pages/Home'
 import Partituras from './pages/Partituras'
 import Contato from './pages/Contato'
-import Teste from './pages/Teste'
 import Login from './pages/Login'
 import Agenda from './pages/Agenda'
 import PrivateRoute from './components/PrivateRoute'
@@ -19,6 +18,8 @@ import MusicoRoute from './components/MusicoRoute'
 import FacaParteMusico from './pages/facaParte/FacaParteMusico'
 import FacaParteAluno from './pages/facaParte/FacaParteAluno'
 import GroupRoute from './components/GroupRoute'
+import PreForms from './pages/facaParte/PreForms'
+import Teste from './pages/Teste'
 
 
 const Routers = () => {
@@ -34,7 +35,9 @@ const Routers = () => {
                         <Route path="/facaparte" element={<FacaParte />} />
                         <Route path="/contato" element={<Contato />} />
                         <Route path="/agenda" element={<Agenda />} />
-                        <Route path="/teste" element={<Teste />} />
+                        <Route path="/teste" element={<PreForms />} />
+                        <Route path="/teste2" element={<Teste />} />
+
 
                         <Route path="/facaparte/musico" element={<FacaParteMusico />} />
                         <Route path="/facaparte/aluno" element={<FacaParteAluno />} />

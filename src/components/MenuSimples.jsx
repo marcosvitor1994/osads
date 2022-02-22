@@ -22,7 +22,6 @@ const MenuSimples = () => {
                                 <Link className="nav-link" to="/facaparte">Faça Parte</Link>
                                 <Link className="nav-link" to="/login">Login</Link>
 
-                                
                             </Nav>
                             
                         </Navbar.Collapse>                

@@ -1,204 +1,305 @@
-import axios from "axios";
-import React, { useState } from "react";
-import { Button, Card, CardGroup, Col, Container, Form, Modal, Row, Table } from "react-bootstrap";
+import React, { useState } from 'react'
+import { Button, Card, Col, Container, Form, FormControl, InputGroup, Row } from 'react-bootstrap'
+import { useLocation } from 'react-router';
+import ApiBase from '../services/ApiBase';
 
 const Teste = () => {
-	const [state, setState] = useState({ selectedFile: null });
-  const [detalhes, setDetalhes] = useState([])
-  const [id, setId] = useState([])
-  const [folderID, setFolderID] = useState([])
-  
-  
-  //modal 
-  const [show, setShow] = useState(false);
-  const handleClose = () => {setDetalhes([0]); setId([0]); setFolderID([0]); setShow(false)};
-  const handleShow = (props) => {
-    const pasta = {folder: `${props}`} //1bHqYWKtmZlENRtiD140CHeOMt4-NW4q9
-    console.log(pasta)
-    setFolderID(props)
-    axios.post('https://uploadFiles.marcosvitor6.repl.co/upload/list', {pasta}).then((result) => {
-      setDetalhes(result.data)
-      console.log(result.data)
-    }).catch((error) => {      
-      console.log(error)
-    })
-    setShow(true);
-    setId(pasta);
+
+  const {state} = useLocation();
+  console.log(state.pre)
+
+
+  const [passwordShown, setPasswordShown] = useState(false);
+  const togglePassword = () => {
+    setPasswordShown(!passwordShown);
   };
 
-  //validar se tem algum arquivo no form
-  function validateForm() {
-    return  state.selectedFile != null;
-  }
-  
-   
-  //fazendo uplado de arquivos
-  const onFileChange = (event) => { 
-    setState({ selectedFile: event.target.files[0] }); 
-  }; 
-   
-  const onFileUpload = () => { 
-    const folderId = id
-    console.log(folderId.folder)
-    const formData = new FormData(); 
-    formData.append( 
-      "myFile", 
-      state.selectedFile,
-      state.selectedFile.name
-    );
-    
-    axios.post(`https://uploadFiles.marcosvitor6.repl.co/upload/folder/${folderId.folder}`, formData).then((result) => {
-      console.log('Success: ', result, handleShow(folderID))
-    }).catch((error) => {      
-      console.log(error)
-    })
-    
-  }; 
 
-  //excluindo arquivos
-  const excluir = (id) =>{
-    
-      fetch(`https://uploadFiles.marcosvitor6.repl.co/file/${id}`, {method: 'DELETE'})
-      .then((response) => response.json(handleShow(folderID)))
-      .then((result)=>{alert(result)})
-      .catch((error)=>{
-      console.error('Error: ', error)
-    })
-    
-  }
+  const [nome, setNome] = useState("");
+  const [email, setEmail] = useState(state.pre.email);
+  const [senha, setSenha] = useState(state.pre.senha);
+  const [telefone, setTelefone] = useState("");
+  const [sexo, setSexo] = useState("");
+  const [cidade, setCidade] = useState("");
+  const [quadra, setQuadra] = useState("");
+  const [cep, setCep] = useState("");
+  const [estado, setEstado] = useState("");
+  const [numero, setNumero] = useState("");
+  const [complemento, setComplemento] = useState("");
+  const [instrumento, setInstrumento] = useState("");
+  const [dataNascimento, setDataNascimento] = useState("");
+
+  function handleSubmit(event) {
+      event.preventDefault();
+      const novoMusico = {
+          nome: nome,
+          email: email,
+          senha: senha,
+          telefone: telefone,
+          sexo: sexo,
+          cidade: cidade,
+          quadra: quadra,
+          cep: cep,
+          estado: estado,
+          numero: numero,
+          complemento: complemento,
+          instrumento: instrumento,
+          dataNascimento: dataNascimento,
+          
+      };
+      addMusico(novoMusico);
+    }
+  
+    function addMusico(props) {
+      const envioMusico = {
+          nome: `${props.nome}`,
+          sexo: `${props.sexo}`,
+          email: `${props.email}`,
+          dataNascimento: `${props.dataNascimento}`,
+          telefone: `${props.telefone}`,
+          endereco: {
+              cidade: `${props.cidade}`,
+              quadra: `${props.quadra}`,
+              estado: `${props.estado}`,
+              cep: `${props.cep}`,
+              numero: `${props.numero}`,
+              complemento: `${props.complemento}`,
+              },
+          senha: `${props.senha}`,        
+          instrumento: `${props.instrumento}`      
+      };
+      console.log(envioMusico);
+  
+      ApiBase.post(`/musicos`, {envioMusico}).then((response) =>
+          alert("Músico adicionado com sucesso!", window.location.reload(false))
+        ).catch((error) => {
+          console.error("Error: ", error);
+        })
+      }   
+
+
+      //CEP
+
+      
+  
+
 
   return (
     <>
-      
-      <p>Maestro</p>
-      
+
     <br />
-      {//teste modal 
-      }   
-    <>
-      <Container>
-        <Row>
-          {
-            //violino
-          }
-          <CardGroup>
 
-          <Col md={4}>
+        <Container>
+          <Row>
+            <Col>
 
-            <Card border='dark' className='mb-3' style={{ width: "18rem" }}>
-                <Card.Img 
-                  variant="top" 
-                  className="test"
-                  onClick={() => handleShow('1bHqYWKtmZlENRtiD140CHeOMt4-NW4q9')} 
-                  src="https://www.superprof.com.br/blog/wp-content/uploads/2018/11/encontrar-professor-de-violino-1060x707.jpg"
-                  style={{height:'200px'}}
-                />               
-                <Card.Body>
-                       <Button
-                          className="bt bt-danger"
-                          variant="primary"
-                          onClick={() => handleShow('1bHqYWKtmZlENRtiD140CHeOMt4-NW4q9')}
-                        >
-                          Partituras Violino
-                      </Button>
-              </Card.Body>
-            </Card>
-          </Col>
-          {
-            //trompete
-          }
-          <Col md={4}>
-            <Card border='dark' className='mb-3' style={{ width: "18rem" }}>
-                <Card.Img variant="top" style={{height:'200px'}} onClick={() => handleShow('1N21JEvSL0z29Ag5XLOAJUvKV4kbtOKQF')} src="https://images.unsplash.com/photo-1511192336575-5a79af67a629?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dHJ1bXBldHxlbnwwfHwwfHw%3D&w=1000&q=80"/>               
-                <Card.Body>
-                    
-                    
-                       <Button
-                          className="bt bt-danger"
-                          variant="primary"
-                          onClick={() => handleShow('1N21JEvSL0z29Ag5XLOAJUvKV4kbtOKQF')}
-                          
-                        >
-                          Partituras Trompete
-                      </Button>
-              </Card.Body>
-            </Card>
-          
-          </Col>
-          </CardGroup>
+              <Card>
+                    <Card.Header align="left">Cadastro Completo</Card.Header>
+                    <Card.Body align="left">
+                      <Card.Text>
+                        <Form onSubmit={handleSubmit}> 
+                          <Container>
+                            <Row>
+                              <Col md={6}>
+                                <Form.Group
+                                  className="mb-3"
+                                  controlId="formBasicEmail"
+                                >
+                                  <Form.Label>Nome</Form.Label>
+                                  <Form.Control
+                                    type="text"
+                                    placeholder="Nome"
+                                    value={nome}
+                                    onChange={(e) => setNome(e.target.value)}
+                                    required
+                                  />
+                                </Form.Group>
+                              </Col>
+                              <Col md={6}>
+                                  <Form.Label>Email</Form.Label>
+                                  <InputGroup className="mb-3">
+                                      <InputGroup.Text id="basic-addon1">@</InputGroup.Text>
+                                      <FormControl
+                                      type="email"
+                                      placeholder="exemplo@email.com"
+                                      aria-label="Email"
+                                      aria-describedby="basic-addon1"
+                                      value={state.pre.email}
+                                      onChange={(e) => setEmail(e.target.value)}
+                                      />
+                                  </InputGroup>
+                              </Col>
+                              
+                              <Col md={3}>
+                                  <Form.Label>Telefone</Form.Label>
+                                  <InputGroup className="mb-3">
+                                      <FormControl
+                                      type="text"
+                                      placeholder="(00)00000-0000"
+                                      aria-label="Email"
+                                      value={telefone}
+                                      onChange={(e) => setTelefone(e.target.value)}
+                                      required
+                                      />
+                                  </InputGroup>
+                              </Col>
+                              <Col md={3}>
+                                <Form.Group
+                                  className="mb-3"
+                                  controlId="formBasicEmail"
+                                  required
+                                >
+                                  <Form.Label>Instrumento</Form.Label>
+                                  <Form.Select aria-label="Default select example" value={instrumento}
+                                    onChange={(e) => setInstrumento(e.target.value)}>
+                                      <option>Selecione o Instrumento</option>
+                                      <option value="Violino1">Violino 1</option>
+                                      <option value="Trompete2">Trompete 1</option>
+                                  </Form.Select>
+                                </Form.Group>
+                              </Col>
+                              <Col md={3}>
+                                <Form.Group
+                                  className="mb-3"
+                                  controlId="formBasicEmail"
+                                >
+                                  <Form.Label>Data de Nascimento</Form.Label>
+                                  <Form.Control
+                                    hasValidation
+                                    type="date"
+                                    value={dataNascimento}
+                                    onChange={(e) => setDataNascimento(e.target.value)}
+                                    required
+                                  />
+                                </Form.Group>
+                              </Col>
+                              <Col md={3}>
+                                <Form.Group
+                                  className="mb-3"
+                                  controlId="formBasicEmail"
+                                >
+                                  <Form.Label>Sexo</Form.Label>
+                                  <Form.Select aria-label="Default select example" value={sexo}
+                                    onChange={(e) => setSexo(e.target.value)}>
+                                      <option>Selecione o Sexo</option>
+                                      <option value="F">F</option>
+                                      <option value="M">M</option>
+                                  </Form.Select>
+                                </Form.Group>
+                              </Col>
+                              <Col md={6}>
+                                <Form.Group
+                                  className="mb-3"
+                                  controlId="formBasicEmail"
+                                >
+                                  <Form.Label>CEP</Form.Label>
+                                  <Form.Control
+                                    type="text"
+                                    placeholder="CEP"
+                                    value={cep}
+                                    onChange={(e) => setCep(e.target.value)}
+                                  />
+                                </Form.Group>
+                              </Col>
+                              
+                              <Col md={3}>
+                                <Form.Group
+                                  className="mb-3"
+                                  controlId="formBasicEmail"
+                                >
+                                  <Form.Label>Cidade</Form.Label>
+                                  <Form.Control
+                                    type="text"
+                                    placeholder="Cidade"
+                                    value={cidade}
+                                    onChange={(e) => setCidade(e.target.value)}
+                                  />
+                                </Form.Group>
+                              </Col>
+                              <Col md={3}>
+                                <Form.Group
+                                  className="mb-3"
+                                  controlId="formBasicEmail"
+                                >
+                                  <Form.Label>Estado</Form.Label>
+                                  <Form.Control
+                                    type="text"
+                                    placeholder="Estado"
+                                    value={estado}
+                                    onChange={(e) => setEstado(e.target.value)}
+                                  />
+                                </Form.Group>
+                              </Col>
+                              <Col md={3}>
+                                <Form.Group
+                                  className="mb-3"
+                                  controlId="formBasicEmail"
+                                >
+                                  <Form.Label>Quadra</Form.Label>
+                                  <Form.Control
+                                    type="text"
+                                    placeholder="Quadra"
+                                    value={quadra}
+                                    onChange={(e) => setQuadra(e.target.value)}
+                                  />
+                                </Form.Group>
+                              </Col>
+                              <Col md={3}>
+                                <Form.Group
+                                  className="mb-3"
+                                  controlId="formBasicEmail"
+                                >
+                                  <Form.Label>Número</Form.Label>
+                                  <Form.Control
+                                    type="text"
+                                    placeholder="Número"
+                                    value={numero}
+                                    onChange={(e) => setNumero(e.target.value)}
+                                  />
+                                </Form.Group>
+                              </Col>
+                              
+                              <Col md={6}>
+                                <Form.Group
+                                  className="mb-3"
+                                  controlId="formBasicEmail"
+                                >
+                                  <Form.Label>Complemento</Form.Label>
+                                  <Form.Control
+                                    type="text"
+                                    placeholder="Complemento"
+                                    value={complemento}
+                                    onChange={(e) => setComplemento(e.target.value)}
+                                  />
+                                </Form.Group>
+                              </Col>
+                              
 
-        </Row>
-      </Container>
+
+                              <br />
+                              <Col md={12}>
+                                <Button variant="primary" type="submit">
+                                  Cadastrar
+                                </Button>
+                              </Col>
+                            </Row>
+                          </Container>
+                        </Form>
+                      </Card.Text>
+                    </Card.Body>
+                    <Card.Footer className="text-muted">
+                      orquestra muito mais que música ...
+                    </Card.Footer>
+              </Card>
+            
+            </Col>
+          </Row>
+        </Container>
+        
+    
     </>
-    <Modal show={show} onHide={handleClose} size="lg"
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-    >
-        <Modal.Header closeButton>
-          <Modal.Title id="contained-modal-title-vcenter">Partituras</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Container>
-              <Row>
-                <Col>
-                  <Form>
-                    <Row>
-                      <Col md={10} >
-                        <input type="file" className="form-control" onChange={onFileChange}/>
-                      </Col>
-                      <Col md={2} align='right' className="d-grid gap-2">                                    
-                          <Button className="btn btn-primary" onClick={() => onFileUpload(folderID)} disabled={!validateForm()}>Enviar</Button>                                         
-                      </Col>
-                    </Row>
-                  </Form>
-                </Col>
-              </Row>
-            </Container>
-          
-         
-            <Container>
-                  <>
-                  <br />
-                    <Table responsive striped bordered hover>
-                      <thead>
-                        <tr>
-                          <th>Nome</th>
-                          <th>Download</th>
-                          <th>Visualizar</th>
-                          <th>Excluir</th>
-                        </tr>
-                      </thead>
-                      <tbody align='center'>
-                        {detalhes.map((files) => (
-                          <tr>
-                            <td>{files.name}</td>
-                            <td>
-                              <a href={`${files.webContentLink}`}><Button className="btn btn-success">DownLoad</Button></a>
-                            </td>
-                            <td>
-                              <a href={`${files.webViewLink}`}><Button className="btn btn-primary">Vizualizar</Button></a>
-                            </td>
-                            <td>
-                              <Button className="btn btn-danger" onClick={() => excluir(files.id)}>Excluir</Button>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </Table>
-                  </>
-            </Container>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button onClick={handleClose}>Close</Button>
-        </Modal.Footer>
-      </Modal>
+  )
+}
 
+export default Teste
 
-
-          
-      
-    </>
-  );
-};
-
-export default Teste;
