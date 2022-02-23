@@ -1,11 +1,13 @@
 import { Container, Nav, Navbar } from 'react-bootstrap'
 import React from 'react'
+import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 
 
 
 const MenuMusico = () => {
 
+    const navigate = useNavigate();
 
     const email = sessionStorage.getItem('email')
 
@@ -17,7 +19,7 @@ const MenuMusico = () => {
         sessionStorage.removeItem('_role')
         sessionStorage.removeItem('email')
 
-        window.location.reload()        
+        window.location.reload(navigate('/home'))        
         
     }
 

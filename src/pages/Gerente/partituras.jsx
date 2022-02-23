@@ -1,6 +1,6 @@
-import axios from "axios";
 import React, { useState } from 'react'
 import { Button, Card, CardGroup, Col, Container, Form, Modal, Row, Table } from "react-bootstrap";
+import ApiUpload from "../../services/ApiUpload";
 
 const GerentePartitura = () => {
 
@@ -17,7 +17,7 @@ const GerentePartitura = () => {
     const pasta = {folder: `${props}`} //1bHqYWKtmZlENRtiD140CHeOMt4-NW4q9
     console.log(pasta)
     setFolderID(props)
-    axios.post('https://uploadFiles.marcosvitor6.repl.co/upload/list', {pasta}).then((result) => {
+    ApiUpload.post('/upload/list', {pasta}).then((result) => {
       setDetalhes(result.data)
       console.log(result.data)
     }).catch((error) => {      
@@ -48,7 +48,7 @@ const GerentePartitura = () => {
       state.selectedFile.name
     );
     
-    axios.post(`https://uploadFiles.marcosvitor6.repl.co/upload/folder/${folderId.folder}`, formData).then((result) => {
+    ApiUpload.post(`/upload/folder/${folderId.folder}`, formData).then((result) => {
       console.log('Success: ', result, handleShow(folderID))
     }).catch((error) => {      
       console.log(error)
@@ -59,7 +59,7 @@ const GerentePartitura = () => {
   //excluindo arquivos
   const excluir = (id) =>{
     
-      fetch(`https://uploadFiles.marcosvitor6.repl.co/file/${id}`, {method: 'DELETE'})
+      fetch(`https://orquestra-api-upload.herokuapp.com/file/${id}`, {method: 'DELETE'})
       .then((response) => response.json(handleShow(folderID)))
       .then((result)=>{alert(result)})
       .catch((error)=>{

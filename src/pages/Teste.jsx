@@ -1,55 +1,30 @@
-import React, { useState } from 'react'
+import React  from 'react'
 import { Button, Card, Col, Container, Form, FormControl, InputGroup, Row } from 'react-bootstrap'
+import { useForm } from 'react-hook-form';
 import { useLocation } from 'react-router';
 import ApiBase from '../services/ApiBase';
+import { mask, unMask } from 'remask'
+import apiCep from '../services/ApiCep';
+
 
 const Teste = () => {
 
+  //mask
+  const { register, setValue, handleSubmit } = useForm()
+  function handleChange(event) {
+    const name = event.target.name
+    const mascara = event.target.getAttribute('mask')
+
+    let valor = unMask(event.target.value)
+    valor = mask(valor, mascara)
+
+    setValue(name, valor)
+  }
+
+  // alimentando pré-informações
   const {state} = useLocation();
-  console.log(state.pre)
+  console.log(state.pre)  
 
-
-  const [passwordShown, setPasswordShown] = useState(false);
-  const togglePassword = () => {
-    setPasswordShown(!passwordShown);
-  };
-
-
-  const [nome, setNome] = useState("");
-  const [email, setEmail] = useState(state.pre.email);
-  const [senha, setSenha] = useState(state.pre.senha);
-  const [telefone, setTelefone] = useState("");
-  const [sexo, setSexo] = useState("");
-  const [cidade, setCidade] = useState("");
-  const [quadra, setQuadra] = useState("");
-  const [cep, setCep] = useState("");
-  const [estado, setEstado] = useState("");
-  const [numero, setNumero] = useState("");
-  const [complemento, setComplemento] = useState("");
-  const [instrumento, setInstrumento] = useState("");
-  const [dataNascimento, setDataNascimento] = useState("");
-
-  function handleSubmit(event) {
-      event.preventDefault();
-      const novoMusico = {
-          nome: nome,
-          email: email,
-          senha: senha,
-          telefone: telefone,
-          sexo: sexo,
-          cidade: cidade,
-          quadra: quadra,
-          cep: cep,
-          estado: estado,
-          numero: numero,
-          complemento: complemento,
-          instrumento: instrumento,
-          dataNascimento: dataNascimento,
-          
-      };
-      addMusico(novoMusico);
-    }
-  
     function addMusico(props) {
       const envioMusico = {
           nome: `${props.nome}`,
@@ -59,10 +34,11 @@ const Teste = () => {
           telefone: `${props.telefone}`,
           endereco: {
               cidade: `${props.cidade}`,
-              quadra: `${props.quadra}`,
+              logradouro: `${props.logradouro}`,
               estado: `${props.estado}`,
               cep: `${props.cep}`,
               numero: `${props.numero}`,
+              bairro: `${props.bairro}`,
               complemento: `${props.complemento}`,
               },
           senha: `${props.senha}`,        
@@ -80,7 +56,29 @@ const Teste = () => {
 
       //CEP
 
+      function handleCep(event) {
+
+        const valor = unMask(event.target.value)
+
+        apiCep.get(`/ws/${valor}/json/`).then(resultado => {
+            const endereco = resultado.data
+            console.log(endereco)
+
+            setValue('logradouro', endereco.logradouro)
+            setValue('complemento', endereco.complemento)
+            setValue('uf', endereco.uf)
+            setValue('cidade', endereco.localidade)
+            setValue('bairro', endereco.bairro)
+        })
+      }
       
+     
+     //consumindo os dados
+    function enviarDados(dados) {
+
+      addMusico(dados)
+
+    }
   
 
 
@@ -109,8 +107,8 @@ const Teste = () => {
                                   <Form.Control
                                     type="text"
                                     placeholder="Nome"
-                                    value={nome}
-                                    onChange={(e) => setNome(e.target.value)}
+                                    onChange={handleChange}
+                                    {...register("nome")}
                                     required
                                   />
                                 </Form.Group>
@@ -125,7 +123,9 @@ const Teste = () => {
                                       aria-label="Email"
                                       aria-describedby="basic-addon1"
                                       value={state.pre.email}
-                                      onChange={(e) => setEmail(e.target.value)}
+                                      onChange={handleChange}
+                                      {...register("email")}
+
                                       />
                                   </InputGroup>
                               </Col>
@@ -134,11 +134,11 @@ const Teste = () => {
                                   <Form.Label>Telefone</Form.Label>
                                   <InputGroup className="mb-3">
                                       <FormControl
-                                      type="text"
-                                      placeholder="(00)00000-0000"
-                                      aria-label="Email"
-                                      value={telefone}
-                                      onChange={(e) => setTelefone(e.target.value)}
+                                      type="text" 
+                                      {...register("telefone")} 
+                                      mask="(99) 99999-9999" 
+                                      onChange={handleChange}
+                                      placeholder="(00) 00000-0000"
                                       required
                                       />
                                   </InputGroup>
@@ -150,8 +150,9 @@ const Teste = () => {
                                   required
                                 >
                                   <Form.Label>Instrumento</Form.Label>
-                                  <Form.Select aria-label="Default select example" value={instrumento}
-                                    onChange={(e) => setInstrumento(e.target.value)}>
+                                  <Form.Select aria-label="Default select example"
+                                    onChange={handleChange}
+                                    {...register("instrumento")}>
                                       <option>Selecione o Instrumento</option>
                                       <option value="Violino1">Violino 1</option>
                                       <option value="Trompete2">Trompete 1</option>
@@ -167,8 +168,8 @@ const Teste = () => {
                                   <Form.Control
                                     hasValidation
                                     type="date"
-                                    value={dataNascimento}
-                                    onChange={(e) => setDataNascimento(e.target.value)}
+                                    onChange={handleChange}
+                                    {...register("dataNascimento")}
                                     required
                                   />
                                 </Form.Group>
@@ -179,8 +180,9 @@ const Teste = () => {
                                   controlId="formBasicEmail"
                                 >
                                   <Form.Label>Sexo</Form.Label>
-                                  <Form.Select aria-label="Default select example" value={sexo}
-                                    onChange={(e) => setSexo(e.target.value)}>
+                                  <Form.Select aria-label="Default select example"
+                                    onChange={handleChange}
+                                    {...register("sexo")}>
                                       <option>Selecione o Sexo</option>
                                       <option value="F">F</option>
                                       <option value="M">M</option>
@@ -194,10 +196,12 @@ const Teste = () => {
                                 >
                                   <Form.Label>CEP</Form.Label>
                                   <Form.Control
-                                    type="text"
-                                    placeholder="CEP"
-                                    value={cep}
-                                    onChange={(e) => setCep(e.target.value)}
+                                      type="text"
+                                      {...register("cep")}
+                                      mask="99.999-999"
+                                      placeholder='CEP'
+                                      onChange={handleChange}
+                                      onBlur={handleCep}
                                   />
                                 </Form.Group>
                               </Col>
@@ -211,8 +215,8 @@ const Teste = () => {
                                   <Form.Control
                                     type="text"
                                     placeholder="Cidade"
-                                    value={cidade}
-                                    onChange={(e) => setCidade(e.target.value)}
+                                    
+                                    {...register("cidade")}
                                   />
                                 </Form.Group>
                               </Col>
@@ -225,22 +229,20 @@ const Teste = () => {
                                   <Form.Control
                                     type="text"
                                     placeholder="Estado"
-                                    value={estado}
-                                    onChange={(e) => setEstado(e.target.value)}
+                                    {...register("uf")}
                                   />
                                 </Form.Group>
                               </Col>
-                              <Col md={3}>
+                              <Col md={9}>
                                 <Form.Group
                                   className="mb-3"
                                   controlId="formBasicEmail"
                                 >
-                                  <Form.Label>Quadra</Form.Label>
+                                  <Form.Label>Logradouro</Form.Label>
                                   <Form.Control
                                     type="text"
-                                    placeholder="Quadra"
-                                    value={quadra}
-                                    onChange={(e) => setQuadra(e.target.value)}
+                                    placeholder="Logradouro"
+                                    {...register("logradouro")}
                                   />
                                 </Form.Group>
                               </Col>
@@ -253,13 +255,24 @@ const Teste = () => {
                                   <Form.Control
                                     type="text"
                                     placeholder="Número"
-                                    value={numero}
-                                    onChange={(e) => setNumero(e.target.value)}
+                                    {...register("numero")}
                                   />
                                 </Form.Group>
                               </Col>
-                              
-                              <Col md={6}>
+                              <Col md={4}>
+                                <Form.Group
+                                  className="mb-3"
+                                  controlId="formBasicEmail"
+                                >
+                                  <Form.Label>Bairro</Form.Label>
+                                  <Form.Control
+                                    type="text"
+                                    placeholder="Bairro"
+                                    {...register("bairro")}
+                                  />
+                                </Form.Group>
+                              </Col>                              
+                              <Col md={8}>
                                 <Form.Group
                                   className="mb-3"
                                   controlId="formBasicEmail"
@@ -268,17 +281,16 @@ const Teste = () => {
                                   <Form.Control
                                     type="text"
                                     placeholder="Complemento"
-                                    value={complemento}
-                                    onChange={(e) => setComplemento(e.target.value)}
+                                    {...register("complemento")}
                                   />
                                 </Form.Group>
                               </Col>
                               
 
-
-                              <br />
-                              <Col md={12}>
-                                <Button variant="primary" type="submit">
+                              <Col md={5} />
+                              <Col md={2} align='center'>
+                                <br />
+                                <Button variant="primary" onClick={handleSubmit(enviarDados)}>
                                   Cadastrar
                                 </Button>
                               </Col>

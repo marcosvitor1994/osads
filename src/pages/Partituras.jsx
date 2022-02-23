@@ -1,7 +1,7 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Button, Col, Container, Row, Table } from "react-bootstrap";
 import Acordion from "../components/Acordion";
+import ApiUpload from "../services/ApiUpload";
 
 const Partituras = () => {
 
@@ -12,7 +12,7 @@ const Partituras = () => {
     const idpasta = sessionStorage.getItem('pasta')  
     const pasta = {folder: `${idpasta}`} //1bHqYWKtmZlENRtiD140CHeOMt4-NW4q9
 
-    axios.post('https://uploadFiles.marcosvitor6.repl.co/upload/list', {pasta}).then((result) => {
+    ApiUpload.post('/upload/list', {pasta}).then((result) => {
       console.log(result.data)
       setPartituras(result.data)
       setInstrumento(sessionStorage.getItem('instrumento'))

@@ -1,9 +1,13 @@
 import { Container, Nav, Navbar, NavDropdown } from 'react-bootstrap'
 import React from 'react'
+import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 
 
 const Menu = () => {
+
+    const navigate = useNavigate();
+
 
     const email = sessionStorage.getItem('email')
 
@@ -17,7 +21,7 @@ const Menu = () => {
         sessionStorage.removeItem('pasta')
 
 
-        window.location.reload()        
+        window.location.reload(navigate('/home'))        
         
     }
 
