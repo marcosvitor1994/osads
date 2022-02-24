@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Button, Card, Col, Container, Form, FormControl, InputGroup, Row, Table } from "react-bootstrap";
+import { Button, Card, Col, Container, Form, FormControl, InputGroup, Modal, Row, Table } from "react-bootstrap";
 import Acordion from "../../components/Acordion";
+import Forms from "../../components/forms";
 import ApiBase from "../../services/ApiBase";
+
 
 const GerenteAlunos = () => {
     
-    //Listando músicos
+    //Listando Alunos
     const [alunos, setAlunos] = useState([]);
     useEffect(() => {
         const token = sessionStorage.getItem('token')
@@ -19,6 +21,30 @@ const GerenteAlunos = () => {
         })
       },[])
   
+
+    //modal 
+    const [show, setShow] = useState(false);
+    const [detalhes, setDetalhes] = useState([])
+
+    const handleClose = () => {
+      setShow(false) 
+      setDetalhes(0)
+    }
+    const handleShow = (props) => {
+      const id = props
+      console.log(id)
+      const token = sessionStorage.getItem('token')
+      ApiBase.get(`/musicos/${id}`, {headers: {
+          'Authorization' : `Bearer ${token}` }})
+          .then((response) => {
+              console.log(response.data.musico)
+              setDetalhes(response.data.musico)
+          })
+          .catch((error)=>{
+          console.error('Error: ', error)
+          })  
+      setShow(true);
+    }
   
   
   //novo músico
@@ -106,7 +132,7 @@ const GerenteAlunos = () => {
         <Row>
           <Col>
             <Acordion
-              title="Adicionar novo aluno"
+              title="Adicionar novo músico"
               body={
                 <Card>
                   <Card.Header align="left">Novo Aluno</Card.Header>
@@ -319,7 +345,7 @@ const GerenteAlunos = () => {
               }
             />
             <br />
-            <Acordion title="Lista de Alunos " body={
+            <Acordion title="Lista de Alunos" body={
                 <Table responsive striped bordered hover>
                 <thead align='left'>
                   <tr>
@@ -328,7 +354,6 @@ const GerenteAlunos = () => {
                     <th>Telefone</th>
                     <th>Email</th>
                     <th>Vizualizar</th>
-                   
                     
                   </tr>
                 </thead>
@@ -340,8 +365,9 @@ const GerenteAlunos = () => {
                       <td>{files.telefone}</td>
                       <td>{files.email}</td>
                       <td>
-                        <Button className="btn btn-danger" onClick={() => excluir(files._id)}>Excluir</Button>
+                        <Button className="btn btn-success" onClick={() => handleShow(`${files._id}`)}>Visualizar</Button>
                       </td>
+                      
                     </tr>
                   ))}
                 </tbody>
@@ -352,6 +378,45 @@ const GerenteAlunos = () => {
           </Col>
         </Row>
       </Container>
+      <Modal show={show} onHide={handleClose} 
+      size="lg"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Dados Aluno</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {detalhes._id && (
+            <Forms onSubmit={handleSubmit} Header={`${detalhes.nome}`} 
+            nome={`${detalhes.nome}`} 
+            email={`${detalhes.email}`}
+            senha={`${detalhes.senha}`}
+            telefone={`${detalhes.telefone}`}
+            instrumento={`${detalhes.instrumento}`}
+            dataNascimento={`${detalhes.dataNascimento}`}
+            sexo={`${detalhes.sexo}`}
+            quadra={`${detalhes.endereco.quadra}`}
+            numero={`${detalhes.endereco.numero}`}
+            estado={`${detalhes.endereco.estado}`}
+            cidade={`${detalhes.endereco.cidade}`}
+            cep={`${detalhes.endereco.cep}`}
+            complemento={`${detalhes.endereco.complemento}`}
+            botão='Atualizar informações'
+
+            />
+            )
+          }
+          
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Fechar
+          </Button>
+          <Button variant="danger" onClick={() => excluir(`${detalhes._id}`)}>
+            Excluir Aluno
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 };

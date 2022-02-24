@@ -14,9 +14,9 @@ const GerenteMusicos = () => {
           'Authorization' : `Bearer ${token}`
         }}).then((result) => {
             console.log(result.data.musicos)
-          setMusicos(result.data.musicos)
+            setMusicos(result.data.musicos)
         }).catch((error) => {      
-          console.log(error)
+            console.log(error)
         })
       },[])
   
@@ -408,9 +408,9 @@ const GerenteMusicos = () => {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
-            Close
+            Fechar
           </Button>
-          <Button variant="danger" onClick={() => handleClose} onChange={() => excluir(`${detalhes._id}`)}>
+          <Button variant="danger" onClick={() => excluir(`${detalhes._id}`)}>
             Excluir Músico
           </Button>
         </Modal.Footer>
