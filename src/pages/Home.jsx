@@ -5,7 +5,6 @@ import { Carousel, Col, Container, Row } from 'react-bootstrap'
 const Home = () => {
     
 
-
     return (
         <>
             <br />
@@ -55,7 +54,7 @@ const Home = () => {
                                 <p>Em 2015 com a permissão de Deus e com a persistência e dedicação do Maestro Uriel, a orquestra gravou um DVD.</p>
                                 <p>A OSADS já realizou cantatas de natal, musicais, viagens, dentre elas participações no Encontro de Bandas e Orquestras de Anicuns – GO, participou também de Encontros Regionais do DF e viagens missionárias, além de concertos anuais temáticos como: Concerto para Deus, Concerto da Harpa Cristã, Concerto no Cinema e Concerto de Aniversário da Orquestra. A Orquestra também realiza o trabalho missionário em hospitais, casa de recuperação, asilos, etc.</p>
                                 <p>Atualmente a igreja está sendo pastoreada pelo amado pastor Jonas Gonçalves que também apoia a orquestra sem medir esforços.</p>
-             
+                                
                       
                     </Col>
                 </Row>
