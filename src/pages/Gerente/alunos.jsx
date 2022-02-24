@@ -34,11 +34,11 @@ const GerenteAlunos = () => {
       const id = props
       console.log(id)
       const token = sessionStorage.getItem('token')
-      ApiBase.get(`/musicos/${id}`, {headers: {
+      ApiBase.get(`/alunos/${id}`, {headers: {
           'Authorization' : `Bearer ${token}` }})
           .then((response) => {
-              console.log(response.data.musico)
-              setDetalhes(response.data.musico)
+              console.log(response.data.aluno)
+              setDetalhes(response.data.aluno)
           })
           .catch((error)=>{
           console.error('Error: ', error)
@@ -359,7 +359,7 @@ const GerenteAlunos = () => {
                 </thead>
                 <tbody align='left'>
                   {alunos.map((files) => (
-                    <tr key={files.id}>
+                    <tr key={files._id}>
                       <td>{files.nome}</td>
                       <td>{files.instrumento}</td>
                       <td>{files.telefone}</td>

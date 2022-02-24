@@ -1,5 +1,5 @@
-import React  from 'react'
-import { Button, Card, Col, Container, Form, FormControl, InputGroup, Row } from 'react-bootstrap'
+import React, { useState }  from 'react'
+import { Button, Card, Col, Container, Form, FormControl, InputGroup, Modal, Row } from 'react-bootstrap'
 import { useForm } from 'react-hook-form';
 import { useLocation } from 'react-router';
 import ApiBase from '../services/ApiBase';
@@ -8,7 +8,7 @@ import apiCep from '../services/ApiCep';
 
 
 const Teste = () => {
-
+  //onClick={handleSubmit(enviarDados)}
   //mask
   const { register, setValue, handleSubmit } = useForm()
   function handleChange(event) {
@@ -21,9 +21,30 @@ const Teste = () => {
     setValue(name, valor)
   }
 
+  //modal 
+  const [show, setShow] = useState(false);
+  const handleClose = () => {
+    setShow(false) 
+  }
+  const handleShow = (props) => {
+    setShow(true);
+  }
+
   // alimentando pré-informações
   const {state} = useLocation();
-  console.log(state.pre)  
+  const [senha, setSenha] = useState('')
+  
+    //consumindo os dados
+    function enviarDados(dados) {
+
+      if (state.pre.senha === senha){
+        addMusico(dados)
+      }
+      else{
+        alert('Senha Incorreta')
+      }
+
+    }
 
     function addMusico(props) {
       const envioMusico = {
@@ -70,16 +91,14 @@ const Teste = () => {
             setValue('cidade', endereco.localidade)
             setValue('bairro', endereco.bairro)
         })
-      }
+      }    
+    
+     //mostrar senha
+      const [passwordShown, setPasswordShown] = useState(false);
+      const togglePassword = () => {
+          setPasswordShown(!passwordShown);
+      };
       
-     
-     //consumindo os dados
-    function enviarDados(dados) {
-
-      addMusico(dados)
-
-    }
-  
 
 
   return (
@@ -290,7 +309,7 @@ const Teste = () => {
                               <Col md={5} />
                               <Col md={2} align='center'>
                                 <br />
-                                <Button variant="primary" onClick={handleSubmit(enviarDados)}>
+                                <Button variant="primary" onClick={() => handleShow()} onChange={handleSubmit(enviarDados)}>
                                   Cadastrar
                                 </Button>
                               </Col>
@@ -307,7 +326,44 @@ const Teste = () => {
             </Col>
           </Row>
         </Container>
-        
+        <Modal show={show} onHide={handleClose} 
+          size="lg"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered>
+            <Modal.Header closeButton>
+              <Modal.Title>Confirmar Senha</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <br />
+              <Form>
+                    <InputGroup className="mb-3">
+                                      
+                        <FormControl
+                            type={passwordShown ? "text" : "password"}
+                            value={senha}
+                            placeholder="Senha"
+                            aria-label="Example text with button addon"
+                            aria-describedby="basic-addon1"
+                            onChange={(e) => setSenha(e.target.value)}
+                            required
+                        />
+                        <Button variant="outline-secondary" id="button-addon2" onClick={togglePassword}>
+                          Mostrar
+                        </Button>
+                    </InputGroup>
+
+              </Form>
+                  
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleClose}>
+                Fechar
+              </Button>
+              <Button variant="primary" onClick={handleSubmit(enviarDados)}>
+                Cadastrar
+              </Button>
+            </Modal.Footer>
+          </Modal>  
     
     </>
   )
