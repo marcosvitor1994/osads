@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Card, Col, Container, Form, FormControl, InputGroup, Row } from 'react-bootstrap'
+import { Button, Card, Col, Container, FloatingLabel, Form, FormControl, InputGroup, Row } from 'react-bootstrap'
 import { useNavigate } from "react-router";
 import ApiBase from '../services/ApiBase';
 import { mask, unMask } from 'remask'
@@ -49,7 +49,7 @@ const Contato = () => {
                 <Row>
                     <Col>
                         <Card>
-                            <Card.Header>Entre em contato com a orquestra ...</Card.Header>
+                            <Card.Header>Entre em contato com a OSADS</Card.Header>
                             <Card.Body align="left">
                             <Card.Text>
 
@@ -79,12 +79,17 @@ const Contato = () => {
                                             </Col>
                                             <Col md={12}>
                                             <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-                                                <Form.Label>Mensagem</Form.Label>
-                                                <Form.Control 
-                                                    as="textarea" 
-                                                    placeholder="Texto" 
-                                                    rows={3} 
-                                                    {...register("message")} />
+                                                <FloatingLabel label="Mensagem">
+                                                    
+                                                    <Form.Control 
+                                                        as="textarea" 
+                                                        placeholder="Texto" 
+                                                        {...register("message")} 
+                                                        style={{ height: '100px' }}
+                                                    />
+                                                
+                                                </FloatingLabel>
+                                                
                                             </Form.Group>
                                             </Col>
                                             <Col>
