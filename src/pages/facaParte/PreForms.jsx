@@ -6,24 +6,41 @@ import { useNavigate } from "react-router";
 
 const PreForms = () => {
    
-    const [email, setEmail] = useState("");
+    const [email, setEmail] = useState(null);
     const [senha, setSenha] = useState("");
     const [senha1, setSenha1] = useState("");
 
     const navigate = useNavigate();
 
+    const [validated, setValidated] = useState(false);
+
     function handleSubmit(event) {
         event.preventDefault();
-        const testeCadastro = {
-        email: email,
-        senha: senha
+        
+        const form = event.currentTarget;
+        if (form.checkValidity() === false) {
+        event.preventDefault();
+        event.stopPropagation();
+            
         }
-        if (senha === senha1){
+
+        else {
+            setValidated(true);
+            
+        }
+        if (form.checkValidity() === false && senha === senha1){
+            const testeCadastro = {
+                email: email,
+                senha: senha
+            }
             preCadastro(testeCadastro)
         }
-        else{
-            return alert('Senha não confere!')
+        else if (form.checkValidity() === false && senha !== senha1) {
+            alert('Senha não confere')
+
         }
+        
+        
     }
 
     function preCadastro (props){
@@ -38,6 +55,17 @@ const PreForms = () => {
         setPasswordShown(!passwordShown);
     };
     
+    //validate
+
+    function validateForm() {
+        if (senha !== null && email !==null){
+            return senha 
+
+        }
+        else {
+            return true
+        }
+      }
         
     
 
@@ -54,28 +82,33 @@ const PreForms = () => {
                             <Card.Body align="left">
                             <Card.Text>
 
-                                <Form onSubmit={handleSubmit}>
+                                <Form onSubmit={handleSubmit} noValidate validated={validated}>
 
                                 <Container>
                                 <Row>
                                             
-                                            <Form.Group className="mb-3" controlId="formBasicEmail">
+                                            <Form.Group className="mb-3" controlId="validationCustomUsername">
                                                 <Form.Label>Email</Form.Label>
                                                 <Form.Control type="email" placeholder="exemplo@email.com" value={email} onChange={(e) => setEmail(e.target.value)} required/>                       
+                                                <Form.Control.Feedback type="invalid">
+                                                    Por favor insira o email!
+                                                </Form.Control.Feedback>
                                             </Form.Group>
                                                 <Form.Label>Senha</Form.Label>
-                                                <InputGroup className="mb-3">
+                                                <InputGroup className="mb-3" hasValidation>
                                                     
                                                     <FormControl
                                                         type="password"
                                                         value={senha}
                                                         placeholder="Senha"
                                                         aria-label="Example text with button addon"
-                                                        aria-describedby="basic-addon1"
+                                                        aria-describedby="inputGroupPrepend"
                                                         onChange={(e) => setSenha(e.target.value)}
                                                         required
                                                     />
-                                                    
+                                                    <Form.Control.Feedback type="invalid">
+                                                        Por favor insira a senha!
+                                                    </Form.Control.Feedback>
                                                 </InputGroup>
                                                 <Form.Label>Confirmar Senha</Form.Label>
                                                 <InputGroup className="mb-3">
@@ -89,11 +122,11 @@ const PreForms = () => {
                                                         onChange={(e) => setSenha1(e.target.value)}
                                                         required
                                                     />
-                                                    <Button variant="outline-secondary" id="button-addon2" onClick={togglePassword}>
+                                                    <Button variant="outline-secondary" id="button-addon2" onClick={togglePassword} >
                                                         Mostrar
                                                     </Button>
                                                 </InputGroup>
-                                                <Button variant="primary" type="submit">
+                                                <Button variant="primary" type="submit" disabled={!validateForm()}>
                                                     Enviar
                                                 </Button>
 
