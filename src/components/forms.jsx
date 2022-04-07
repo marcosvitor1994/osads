@@ -4,6 +4,7 @@ import ApiBase from '../services/ApiBase';
 
 const Forms = (props) => {
 
+  console.log(props)
     const [passwordShown, setPasswordShown] = useState(false);
     const togglePassword = () => {
       setPasswordShown(!passwordShown);

@@ -1,6 +1,9 @@
 import React from 'react'
 import { Carousel, Col, Container, Row } from 'react-bootstrap'
-
+import Foto_1 from "../img/Foto_1.jpeg"
+import Foto_2 from "../img/Foto_2.jpeg"
+import Foto_3 from "../img/Foto_3.jpeg"
+import Foto_4 from "../img/Foto_4.jpeg"
 
 const Home = () => {
     
@@ -19,24 +22,33 @@ const Home = () => {
                             <Carousel.Item>
                                 <img
                                 className="d-block w-100"
-                                src="https://lh3.google.com/u/0/d/1eltrWI4ceswDdu-_vUvYZwND9glEBZWo=w1600-h732-iv1"
-                                alt="First slide"
+                                src={Foto_2}
+                                alt="Orquestra OSADS"
                                 />
                                 
                             </Carousel.Item>
                             <Carousel.Item>
                                 <img
                                 className="d-block w-100"
-                                src="https://lh3.google.com/u/0/d/12GkwE2qy1Qhr_71YSlqo9ljeG-bqXEpk=w1600-h732-iv1"
-                                alt="Second slide"
+                                src={Foto_1}
+                                alt="Nipe Violinos"
+                                />
+                                
+                            </Carousel.Item>
+                            
+                            <Carousel.Item>
+                                <img
+                                className="d-block w-100"
+                                src={Foto_3}
+                                alt="Nipe de Metais"
                                 />
                                 
                             </Carousel.Item>
                             <Carousel.Item>
                                 <img
                                 className="d-block w-100"
-                                src="https://lh3.google.com/u/0/d/1cUSPqUAioROKTphCQdi0Z9GZBdeCZh8Q=w1020-h732-iv1"
-                                alt="Third slide"
+                                src={Foto_4}
+                                alt="Nipe de Madeiras"
                                 />
                                 
                             </Carousel.Item>
@@ -48,7 +60,7 @@ const Home = () => {
 
                     <Col md={6} className='lead' align="justify">
                        
-                                <p> A orquestra foi fundada pelo Maestro Leonardo Gomes em 2005, com estreia em setembro do mesmo ano, na Igreja Assembleia de Deus - ADTAG 316 da Samambaia Sul, pastoreada pelo amado pastor Ildenor Ferreira. Logo após a estreia da OSADS a igreja começou a ser pastoreada pelo o amado Pastor Saulo Gonçalves, que apoiou a orquestra durante 9 anos.</p>
+                                <p>A orquestra foi fundada pelo Maestro Leonardo Gomes em 2005, com estreia em setembro do mesmo ano, na Igreja Assembleia de Deus - ADTAG 316 da Samambaia Sul, pastoreada pelo amado pastor Ildenor Ferreira. Logo após a estreia da OSADS a igreja começou a ser pastoreada pelo o amado Pastor Saulo Gonçalves, que apoiou a orquestra durante 9 anos.</p>
                                 <p>O grupo participa do Encontro Nacional de Bandas desde o 7° ENBO que aconteceu em Caldas novas – GO, desde então não faltou em nenhum encontro até o ano de 2012.</p>
                                 <p>No ano de 2012 o maestro Leonardo Gomes deixou a orquestra, e em 2013 o maestro Uriel Silva Ferreira assumiu a orquestra para dar continuidade ao trabalho.</p>
                                 <p>Em 2015 com a permissão de Deus e com a persistência e dedicação do Maestro Uriel, a orquestra gravou um DVD.</p>

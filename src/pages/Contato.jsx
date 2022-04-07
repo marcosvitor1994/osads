@@ -29,7 +29,7 @@ const Contato = () => {
 
     }
     
-    //mask
+    //mask + add value 
     function handleChange(event) {
         const name = event.target.name
         const mascara = event.target.getAttribute('mask')

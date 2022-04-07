@@ -18,8 +18,8 @@ import MusicoRoute from './components/MusicoRoute'
 import FacaParteMusico from './pages/facaParte/FacaParteMusico'
 import FacaParteAluno from './pages/facaParte/FacaParteAluno'
 import GroupRoute from './components/GroupRoute'
-import PreForms from './pages/facaParte/PreForms'
 import Teste from './pages/Teste'
+import PreCadastroMusico from './pages/facaParte/PreCadastroMusico'
 
 
 const Routers = () => {
@@ -35,7 +35,7 @@ const Routers = () => {
                         <Route path="/facaparte" element={<FacaParte />} />
                         <Route path="/contato" element={<Contato />} />
                         <Route path="/agenda" element={<Agenda />} />
-                        <Route path="/teste" element={<PreForms />} />
+                        <Route path="/teste" element={<PreCadastroMusico />} />
                         <Route path="/teste2" element={<Teste />} />
 
 
