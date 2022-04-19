@@ -2,13 +2,16 @@ import React, { useState }  from 'react'
 import { Button, Card, Col, Container, Form, FormControl, InputGroup, Modal, Row } from 'react-bootstrap'
 import { useForm } from 'react-hook-form';
 import { useLocation } from 'react-router';
+import { useNavigate } from 'react-router';
 import ApiBase from '../services/ApiBase';
 import { mask, unMask } from 'remask'
 import apiCep from '../services/ApiCep';
 
 
 const Teste = () => {
-  //onClick={handleSubmit(enviarDados)}
+
+  const navigate = useNavigate();
+
   //mask
   const { register, setValue, handleSubmit } = useForm()
   function handleChange(event) {
@@ -47,7 +50,7 @@ const Teste = () => {
     }
 
     function addMusico(props) {
-      const envioMusico = {
+      const preMusico = {
           nome: `${props.nome}`,
           sexo: `${props.sexo}`,
           email: `${props.email}`,
@@ -62,13 +65,15 @@ const Teste = () => {
               bairro: `${props.bairro}`,
               complemento: `${props.complemento}`,
               },
-          senha: `${props.senha}`,        
-          instrumento: `${props.instrumento}`      
+          senha: `${senha}`,        
+          instrumento: `${props.instrumento}`,
+          form: `musico`
+
       };
-      console.log(envioMusico);
+      console.log(preMusico);
   
-      ApiBase.post(`/musicos`, {envioMusico}).then((response) =>
-          alert("Músico adicionado com sucesso!", window.location.reload(false))
+      ApiBase.post(`/forms`, {preMusico}).then((response) =>
+          alert("Pré cadastro efetudo com sucesso! Aguarde confirmação do administrador para acessar o sistema.", navigate('/home'))
         ).catch((error) => {
           console.error("Error: ", error);
         })

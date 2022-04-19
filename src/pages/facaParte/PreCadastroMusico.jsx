@@ -1,31 +1,46 @@
 import React, { useState } from 'react'
 import { Button, Form, Row, Col, Container, InputGroup, FormControl } from 'react-bootstrap';
-import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router';
 
 const PreCadastroMusico = () => {
     
-    const { register } = useForm()
+    const [email, setEmail] = useState(null);
+    const [senha, setSenha] = useState("");
+    const [senha1, setSenha1] = useState("");
     const navigate = useNavigate();
 
 
     const [validated, setValidated] = useState(false);
   
     const handleSubmit = (event) => {
+        event.preventDefault();
+
       const form = event.currentTarget;
       if (form.checkValidity() === false) {
         event.preventDefault();
         event.stopPropagation();
-        novoEvento(event)
-
       }
+      else{
         setValidated(true)
-      
+        novoEvento(event)
+      }
+      setValidated(true)
+
+        
     };
 
     function novoEvento (props){
-        const pre = props
-        navigate('/teste2', {state: {pre}})
+
+        if (senha === senha1){
+            const pre = {
+                email: email,
+                senha: senha
+            }
+            navigate('/teste2', {state: {pre}})
+        }
+        else{
+            alert('Senhas Diferentes', window.location.reload(false))
+        }
     }
 
     
@@ -47,8 +62,8 @@ const PreCadastroMusico = () => {
                             <Row className="mb-3">
                             <Form.Group controlId="validationCustom01">
                                 <Form.Label>Insira o Email </Form.Label>
-                                <FormControl required type="email" placeholder="Email" {...register("email")} 
-/>
+                                <FormControl required type="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
+
                                 <Form.Control.Feedback type="invalid">
                                     Por favor insira o email corretamente. 
                                 </Form.Control.Feedback>
@@ -58,7 +73,7 @@ const PreCadastroMusico = () => {
                             <Row className="mb-3">
                             <Form.Group controlId="validationCustom03">
                                 <Form.Label>Senha</Form.Label>
-                                <FormControl type="password" placeholder="Senha" {...register("senha")} required />
+                                <FormControl type="password" placeholder="Senha" onChange={(e) => setSenha(e.target.value)} required />
                                 <Form.Control.Feedback type="invalid">
                                     Por favor insira a senha.
                                 </Form.Control.Feedback>
@@ -69,7 +84,7 @@ const PreCadastroMusico = () => {
                                     <InputGroup className="mb-3">
                                         <FormControl 
                                         type={passwordShown ? "text" : "password"}
-                                        {...register("senha2")} 
+                                        onChange={(e) => setSenha1(e.target.value)} 
 
                                         placeholder="Repetir Senha" required />
                                         
