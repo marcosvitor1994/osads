@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import "./login.css";
 import { useNavigate } from "react-router";
-import { Col, Container, InputGroup, Row } from "react-bootstrap";
+import { Card, Col, Container, FloatingLabel, InputGroup, Row } from "react-bootstrap";
 import ApiBase from "../services/ApiBase";
 
 export default function Login() {
@@ -69,56 +68,65 @@ export default function Login() {
       
       <Container>
         <br />
-        <br />
-        <br />
-        <br />
+        
         <Row className="row d-flex justify-content-center">
             <Col className="col-md-6">
 
-              <Form onSubmit={handleSubmit}>
-                <Form.Group  controlId="email" className="form-group">
+            <Card border="dark">
+              <Card.Header>Login</Card.Header>
+              <Card.Body>
+          <br />
+
+                <Form onSubmit={handleSubmit}>
+
+                  <FloatingLabel controlId="email" label="Email:" className="col-md-12">
+                    
+                          <Form.Control autoFocus type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
+                                       
+                  </FloatingLabel>
+          <br />
+                                         
+                          <div>
+                            <InputGroup controlId="password" className="md-3">
+
+                              <FloatingLabel controlId="senha" label="Senha:" className="w-75">
+                                <Form.Control type={passwordShown ? "text" : "password"} value={senha} onChange={(e) => setSenha(e.target.value)} placeholder="Senha:"/>
+                              </FloatingLabel>
+                              <Button variant="outline-secondary" onClick={togglePassword} className="w-25">Mostrar</Button>
+                            </InputGroup>
+
+                          </div>
+                          
+
+
+                        
+                  
+          <br />
                   <Container>
-                    <Row>
-                      <Col md={2}>
-                        <Form.Label>Email:</Form.Label>
-                      </Col>
-                      <Col md={10}>
-                        <Form.Control autoFocus type="email" className="form-control" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
-                      </Col>
-                    </Row>
-                  </Container>                 
-                </Form.Group>
-        <br />
-                <Form.Group controlId="password" className="form-group">
-                  <Container>
-                    <Row>
-                      <Col md={2}>
-                        <Form.Label>Senha:</Form.Label>
-                      </Col>
-                      <Col md={10}> 
-                      <InputGroup className="mb-3">
-                        <Form.Control type={passwordShown ? "text" : "password"} value={senha} onChange={(e) => setSenha(e.target.value)} placeholder="Senha"/>
-                        <Button variant="outline-secondary" id="button-addon2" onClick={togglePassword}>Mostrar</Button>
-                      </InputGroup>
+                    <Row className="row d-flex justify-content-center">
+                      <Col md={4}>
+                        <div className="d-grid">
+                          <Button type="submit" disabled={!validateForm()}>
+                            Entrar
+                          </Button>
+                          
+                        </div>
                       </Col>
                     </Row>
                   </Container>
-                </Form.Group>
-        <br />
-                <Container>
-                  <Row className="row d-flex justify-content-center">
-                    <Col md={4}>
-                      <div className="d-grid">
-                        <Button type="submit" disabled={!validateForm()}>
-                          Entrar
-                        </Button>
-                        
-                      </div>
-                    </Col>
-                  </Row>
-                </Container>
-                
-              </Form>
+                  
+                </Form>
+
+
+
+
+
+              </Card.Body>
+              <Card.Footer className="text-muted">Transformando vidas através do louvor!</Card.Footer>
+
+            </Card>
+
+              
             
             </Col>
 

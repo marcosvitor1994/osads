@@ -92,7 +92,7 @@ const PreCadastroMusico = () => {
                                             Mostrar
                                         </Button>
                                         <Form.Control.Feedback type="invalid">
-                                            As senhas não são iguais.
+                                            Repita a senha novamente.
                                         </Form.Control.Feedback>
                                     </InputGroup>
                                 
