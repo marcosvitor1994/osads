@@ -93,7 +93,7 @@ const Contato = () => {
                                             </Form.Group>
                                             </Col>
                                             <Col>
-                                                <Button variant="primary" type="submit" onClick={handleSubmit(handleSubmit2)}>
+                                                <Button variant="primary" type="submit" onClick={handleSubmit(handleSubmit2)} className="w-25">
                                                     Enviar
                                                 </Button>
                                             </Col>
@@ -105,7 +105,7 @@ const Contato = () => {
 
                             </Card.Text>
                             </Card.Body>
-                            <Card.Footer className="text-muted">orquestra ... muito mais que música ...</Card.Footer>
+                            <Card.Footer className="text-muted">Transformando vidas através do louvor!</Card.Footer>
                         </Card>
 
 

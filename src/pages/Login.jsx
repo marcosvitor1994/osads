@@ -93,6 +93,7 @@ export default function Login() {
                                 <Form.Control type={passwordShown ? "text" : "password"} value={senha} onChange={(e) => setSenha(e.target.value)} placeholder="Senha:"/>
                               </FloatingLabel>
                               <Button variant="outline-secondary" onClick={togglePassword} className="w-25">Mostrar</Button>
+                              
                             </InputGroup>
 
                           </div>
