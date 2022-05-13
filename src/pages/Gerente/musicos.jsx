@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Card, Col, Container, Form, FormControl, InputGroup, Modal, Row, Table } from "react-bootstrap";
+import { Button, Col, Container, Modal, Row, Table } from "react-bootstrap";
 import Acordion from "../../components/Acordion";
 import Forms from "../../components/forms";
 import ApiBase from "../../services/ApiBase";
@@ -8,6 +8,8 @@ const GerenteMusicos = () => {
     
     //Listando músicos
     const [musicos, setMusicos] = useState([]);
+    const [novosMusicos, setNovosMusicos] = useState([]);
+
     useEffect(() => {
         const token = sessionStorage.getItem('token')
         ApiBase.get('/musicos', {headers: {
@@ -15,6 +17,14 @@ const GerenteMusicos = () => {
         }}).then((result) => {
             console.log(result.data.musicos)
             setMusicos(result.data.musicos)
+        }).catch((error) => {      
+            console.log(error)
+        })
+        ApiBase.get('/forms', {headers: {
+          'Authorization' : `Bearer ${token}`
+        }}).then((result) => {
+            console.log(result.data.users)
+            setNovosMusicos(result.data.users)
         }).catch((error) => {      
             console.log(error)
         })
@@ -37,6 +47,21 @@ const GerenteMusicos = () => {
         .then((response) => {
             console.log(response.data.musico)
             setDetalhes(response.data.musico)
+        })
+        .catch((error)=>{
+        console.error('Error: ', error)
+        })  
+    setShow(true);
+  }
+  const handleShow2 = (props) => {
+    const id = props
+    console.log(id)
+    const token = sessionStorage.getItem('token')
+    ApiBase.get(`/forms/${id}`, {headers: {
+        'Authorization' : `Bearer ${token}` }})
+        .then((response) => {
+            console.log(response.data.user)
+            setDetalhes(response.data.user)
         })
         .catch((error)=>{
         console.error('Error: ', error)
@@ -83,6 +108,7 @@ const GerenteMusicos = () => {
   }
 
   function addMusico(props) {
+    console.log(props)
     const envioMusico = {
         nome: `${props.nome}`,
         sexo: `${props.sexo}`,
@@ -117,9 +143,69 @@ const GerenteMusicos = () => {
           'Authorization' : `Bearer ${token}` }})
         .then((response) => alert(response.data.message, window.location.reload(false)))
         .catch((error)=>{
-        console.error('Error: ', error)
+        console.log(error)
         })  
       }
+
+
+    //aprovar músico
+
+    function aprovarMusico(props) {
+
+      const id = props
+      const token = sessionStorage.getItem('token')
+      ApiBase.get(`/forms/${id}`, {headers: {
+          'Authorization' : `Bearer ${token}` }})
+          .then((response) => {
+              setDetalhes(response.data.user)
+              const envioMusico = {
+                nome: `${response.data.user.nome}`,
+                sexo: `${response.data.user.sexo}`,
+                email: `${response.data.user.email}`,
+                dataNascimento: `${response.data.user.dataNascimento}`,
+                telefone: `${response.data.user.telefone}`,
+
+                endereco: {
+                  cidade: `${response.data.user.endereco.cidade}`,
+                  quadra: `${response.data.user.endereco.quadra}`,
+                  estado: `${response.data.user.endereco.estado}`,
+                  cep: `${response.data.user.endereco.cep}`,
+                  numero: `${response.data.user.endereco.numero}`,
+                  complemento: `${response.data.user.endereco.complemento}`
+                },
+                
+                senha: `${response.data.user.senha}`,        
+                instrumento: `${response.data.user.instrumento}`      
+            };
+            ApiBase.post(`/musicos`, {envioMusico}).then((response) =>
+              alert("Músico adicionado com sucesso!", window.location.reload(false)),
+              ApiBase.delete(`/forms/${id}`, {headers: {
+                'Authorization' : `Bearer ${token}` }}).then((response) => {console.log(response)}).catch((error) => {console.log(error)})
+            ).catch((error) => {
+              console.error("Error: ", error);
+            })
+
+          })
+          .catch((error)=>{
+          console.error('Error: ', error)
+          }) 
+      
+      }
+
+      //reprovar músico
+
+      function reprovarMusico(props) {
+        const id = props
+        const token = sessionStorage.getItem('token')
+
+        ApiBase.delete(`/forms/${id}`, {headers: {
+          'Authorization' : `Bearer ${token}` }}).then((response) => 
+          {alert(response.data.message, window.location.reload(false))}).catch((error) => 
+          {console.log(error)})
+
+      }
+
+
 
   return (
     <>
@@ -129,221 +215,9 @@ const GerenteMusicos = () => {
       <Container>
         <Row>
           <Col>
-            <Acordion
-              title="Adicionar novo músico"
-              body={
-                <Card>
-                  <Card.Header align="left">Novo Músico</Card.Header>
-                  <Card.Body align="left">
-                    <Card.Text>
-                      <Form onSubmit={handleSubmit}>
-                        <Container>
-                          <Row>
-                            <Col md={6}>
-                              <Form.Group
-                                className="mb-3"
-                                controlId="formBasicEmail"
-                              >
-                                <Form.Label>Nome</Form.Label>
-                                <Form.Control
-                                  type="text"
-                                  placeholder="Nome"
-                                  value={nome}
-                                  onChange={(e) => setNome(e.target.value)}
-                                />
-                              </Form.Group>
-                            </Col>
-                            <Col md={6}>
-                                <Form.Label>Email</Form.Label>
-                                <InputGroup className="mb-3">
-                                    <InputGroup.Text id="basic-addon1">@</InputGroup.Text>
-                                    <FormControl
-                                    type="email"
-                                    placeholder="exemplo@sistema.com"
-                                    aria-label="Email"
-                                    aria-describedby="basic-addon1"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    />
-                                </InputGroup>
-                            </Col>
-                            <Col md={6}>
-                                <Form.Label>Senha</Form.Label>
-                                <InputGroup className="mb-3">
-                                    
-                                    <FormControl
-                                        type="password"
-                                        value={senha}
-                                        placeholder="Senha"
-                                        aria-label="Example text with button addon"
-                                        aria-describedby="basic-addon1"
-                                        onChange={(e) => setSenha(e.target.value)}
-                                    />
-                                    <Button variant="outline-secondary" id="button-addon2">
-                                        Mostrar
-                                    </Button>
-                                </InputGroup>
-                            </Col>
-                            <Col md={3}>
-                                <Form.Label>Telefone</Form.Label>
-                                <InputGroup className="mb-3">
-                                    <FormControl
-                                    type="text"
-                                    placeholder="(00)00000-0000"
-                                    aria-label="Email"
-                                    value={telefone}
-                                    onChange={(e) => setTelefone(e.target.value)}
-                                    />
-                                </InputGroup>
-                            </Col>
-                            <Col md={3}>
-                              <Form.Group
-                                className="mb-3"
-                                controlId="formBasicEmail"
-                              >
-                                <Form.Label>Instrumento</Form.Label>
-                                <Form.Select aria-label="Default select example" value={instrumento}
-                                  onChange={(e) => setInstrumento(e.target.value)}>
-                                    <option>Selecione o Instrumento</option>
-                                    <option value="Violino1">Violino 1</option>
-                                    <option value="Trompete2">Trompete 1</option>
-                                </Form.Select>
-                              </Form.Group>
-                            </Col>
-                            <Col md={3}>
-                              <Form.Group
-                                className="mb-3"
-                                controlId="formBasicEmail"
-                              >
-                                <Form.Label>Data de Nascimento</Form.Label>
-                                <Form.Control
-                                  type="date"
-                                  value={dataNascimento}
-                                  onChange={(e) => setDataNascimento(e.target.value)}
-                                />
-                              </Form.Group>
-                            </Col>
-                            <Col md={3}>
-                              <Form.Group
-                                className="mb-3"
-                                controlId="formBasicEmail"
-                              >
-                                <Form.Label>Sexo</Form.Label>
-                                <Form.Select aria-label="Default select example" value={sexo}
-                                  onChange={(e) => setSexo(e.target.value)}>
-                                    <option>Selecione o Sexo</option>
-                                    <option value="F">F</option>
-                                    <option value="M">M</option>
-                                </Form.Select>
-                              </Form.Group>
-                            </Col>
-                            <Col md={3}>
-                              <Form.Group
-                                className="mb-3"
-                                controlId="formBasicEmail"
-                              >
-                                <Form.Label>Quadra</Form.Label>
-                                <Form.Control
-                                  type="text"
-                                  placeholder="Quadra"
-                                  value={quadra}
-                                  onChange={(e) => setQuadra(e.target.value)}
-                                />
-                              </Form.Group>
-                            </Col>
-                            <Col md={3}>
-                              <Form.Group
-                                className="mb-3"
-                                controlId="formBasicEmail"
-                              >
-                                <Form.Label>Número</Form.Label>
-                                <Form.Control
-                                  type="text"
-                                  placeholder="Número"
-                                  value={numero}
-                                  onChange={(e) => setNumero(e.target.value)}
-                                />
-                              </Form.Group>
-                            </Col>
-                            <Col md={3}>
-                              <Form.Group
-                                className="mb-3"
-                                controlId="formBasicEmail"
-                              >
-                                <Form.Label>Cidade</Form.Label>
-                                <Form.Control
-                                  type="text"
-                                  placeholder="Cidade"
-                                  value={cidade}
-                                  onChange={(e) => setCidade(e.target.value)}
-                                />
-                              </Form.Group>
-                            </Col>
-                            <Col md={3}>
-                              <Form.Group
-                                className="mb-3"
-                                controlId="formBasicEmail"
-                              >
-                                <Form.Label>Estado</Form.Label>
-                                <Form.Control
-                                  type="text"
-                                  placeholder="Estado"
-                                  value={estado}
-                                  onChange={(e) => setEstado(e.target.value)}
-                                />
-                              </Form.Group>
-                            </Col>
-                            
-                            <Col md={6}>
-                              <Form.Group
-                                className="mb-3"
-                                controlId="formBasicEmail"
-                              >
-                                <Form.Label>CEP</Form.Label>
-                                <Form.Control
-                                  type="text"
-                                  placeholder="CEP"
-                                  value={cep}
-                                  onChange={(e) => setCep(e.target.value)}
-                                />
-                              </Form.Group>
-                            </Col>
-                            <Col md={12}>
-                              <Form.Group
-                                className="mb-3"
-                                controlId="formBasicEmail"
-                              >
-                                <Form.Label>Complemento</Form.Label>
-                                <Form.Control
-                                  type="text"
-                                  placeholder="Complemento"
-                                  value={complemento}
-                                  onChange={(e) => setComplemento(e.target.value)}
-                                />
-                              </Form.Group>
-                            </Col>
-                            
-
-
-                            <br />
-                            <Col md={12}>
-                              <Button variant="primary" type="submit">
-                                Adicionar Músico
-                              </Button>
-                            </Col>
-                          </Row>
-                        </Container>
-                      </Form>
-                    </Card.Text>
-                  </Card.Body>
-                  <Card.Footer className="text-muted">
-                    orquestra muito mais que música ...
-                  </Card.Footer>
-                </Card>
-              }
-            />
-            <br />
-            <Acordion title="Lista de Músicos da orquestra" body={
+            
+            <Acordion 
+              title="Lista de Músicos da OSADS" body={
                 <Table responsive striped bordered hover>
                 <thead align='left'>
                   <tr>
@@ -372,7 +246,44 @@ const GerenteMusicos = () => {
                 </Table>
             }/>
             <br />
-            <Acordion title="Contato de novos músicos" />
+            <Acordion 
+              title="Novos músicos" body={
+              <Table responsive striped bordered hover>
+              <thead align='left'>
+                <tr>
+                  <th>Nome</th>
+                  <th>Instrumento</th>
+                  <th>Telefone</th>
+                  <th>Email</th>
+                  <th>Vizualizar</th>
+                  <th>Aprovar Músico</th>
+                  <th>Excluir Músico</th>
+                  
+                </tr>
+              </thead>
+              <tbody align='left'>
+                {novosMusicos.map((files) => (
+                  <tr key={files.id}>
+                    <td>{files.nome}</td>
+                    <td>{files.instrumento}</td>
+                    <td>{files.telefone}</td>
+                    <td>{files.email}</td>
+                    <td>
+                      <Button className="btn btn-success" onClick={() => handleShow2(`${files._id}`)}>Visualizar</Button>
+                    </td>
+                    <td>
+                      <Button className="btn btn-secundary" onClick={() => aprovarMusico(`${files._id}`)}>Aprovar</Button>
+                    </td>
+                    <td>
+                      <Button className="btn btn-danger" onClick={() => reprovarMusico(`${files._id}`)}>Excluir</Button>
+                    </td>
+                    
+                  </tr>
+                ))}
+              </tbody>
+              </Table>
+
+            }/>
           </Col>
         </Row>
       </Container>

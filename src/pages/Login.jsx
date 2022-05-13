@@ -71,37 +71,26 @@ export default function Login() {
         
         <Row className="row d-flex justify-content-center">
             <Col className="col-md-6">
-
             <Card border="dark">
-              <Card.Header>Login</Card.Header>
+              <Card.Header>Login OSADS</Card.Header>
               <Card.Body>
           <br />
 
                 <Form onSubmit={handleSubmit}>
-
                   <FloatingLabel controlId="email" label="Email:" className="col-md-12">
-                    
                           <Form.Control autoFocus type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
-                                       
                   </FloatingLabel>
           <br />
                                          
                           <div>
                             <InputGroup controlId="password" className="md-3">
-
                               <FloatingLabel controlId="senha" label="Senha:" className="w-75">
                                 <Form.Control type={passwordShown ? "text" : "password"} value={senha} onChange={(e) => setSenha(e.target.value)} placeholder="Senha:"/>
                               </FloatingLabel>
                               <Button variant="outline-secondary" onClick={togglePassword} className="w-25">Mostrar</Button>
-                              
                             </InputGroup>
-
                           </div>
-                          
-
-
-                        
-                  
+                      
           <br />
                   <Container>
                     <Row className="row d-flex justify-content-center">
@@ -110,25 +99,15 @@ export default function Login() {
                           <Button type="submit" disabled={!validateForm()}>
                             Entrar
                           </Button>
-                          
                         </div>
                       </Col>
                     </Row>
                   </Container>
-                  
                 </Form>
-
-
-
-
-
               </Card.Body>
               <Card.Footer className="text-muted">Transformando vidas através do louvor!</Card.Footer>
-
             </Card>
 
-              
-            
             </Col>
 
         </Row>
