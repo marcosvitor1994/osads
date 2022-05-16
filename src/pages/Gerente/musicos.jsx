@@ -200,8 +200,9 @@ const GerenteMusicos = () => {
 
         ApiBase.delete(`/forms/${id}`, {headers: {
           'Authorization' : `Bearer ${token}` }}).then((response) => 
-          {alert(response.data.message, window.location.reload(false))}).catch((error) => 
-          {console.log(error)})
+           alert(response.data.message, window.location.reload(false)))
+          .catch((error)=>{
+          console.log(error)})
 
       }
 
@@ -245,7 +246,7 @@ const GerenteMusicos = () => {
                 </tbody>
                 </Table>
             }/>
-            <br />
+              <br />
             <Acordion 
               title="Novos músicos" body={
               <Table responsive striped bordered hover>
@@ -284,6 +285,7 @@ const GerenteMusicos = () => {
               </Table>
 
             }/>
+
           </Col>
         </Row>
       </Container>
