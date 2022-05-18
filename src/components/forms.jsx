@@ -8,7 +8,7 @@ import { useForm } from 'react-hook-form';
 
 const Forms = (props) => {
 
-  console.log(props)
+    console.log(props)
     
     const id = sessionStorage.getItem('_id')
     const [nome, setNome] = useState(props.nome);
@@ -74,7 +74,7 @@ const Forms = (props) => {
     
         ApiBase.put(`/musicos/${id}`, {envioMusico}, {headers: {
           'Authorization' : `Bearer ${token}` }}).then((response) =>
-            alert("Dados atualizados com sucesso!", window.location.reload(false))
+            alert("Dados atualizados   com sucesso!", window.location.reload(false))
           ).catch((error) => {
             console.error("Error: ", error);
           })

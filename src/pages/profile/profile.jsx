@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Col, Container, Row } from 'react-bootstrap';
+import { Button, Col, Container, Row } from 'react-bootstrap';
 import Forms from '../../components/forms';
 import ApiBase from '../../services/ApiBase';
 
@@ -20,11 +20,10 @@ const Profile = () => {
   },[])
   
 
-
   return (
     <>
     
-        <p>Profile</p>
+        <br />
         <Container>
           <Row>
             <Col>
@@ -33,24 +32,32 @@ const Profile = () => {
                 <Forms Header={`Dados do Usuário`} 
                   nome={`${detalhes.nome}`} 
                   email={`${detalhes.email}`}
-                  senha={`${detalhes.senha}`}
                   telefone={`${detalhes.telefone}`}
                   instrumento={`${detalhes.instrumento}`}
                   dataNascimento={`${detalhes.dataNascimento}`}
                   sexo={`${detalhes.sexo}`}
-                  quadra={`${detalhes.endereco.quadra}`}
+                  logradouro={`${detalhes.endereco.logradouro}`}
                   numero={`${detalhes.endereco.numero}`}
                   estado={`${detalhes.endereco.estado}`}
                   cidade={`${detalhes.endereco.cidade}`}
                   cep={`${detalhes.endereco.cep}`}
                   complemento={`${detalhes.endereco.complemento}`}
                   botão='Atualizar informações'
+                  
                 />
                 )
               }
+              <br />
+              <Button variant="outline-danger">Alterar Senha</Button>
               
-            
+              <Button variant="outline-primary">Alterar Email</Button>
+
+
             </Col>
+
+            
+            
+            
           </Row>
         </Container>
         

@@ -12,7 +12,7 @@ const FacaParte = () => {
             <Container>
                 <Row>
                     <Col md={6}>
-                        <Card>
+                        <Card border="dark">
                             <Card.Header>Estude música</Card.Header>
                             <Card.Img variant="top" src="https://blog.fritzdobbert.com.br/wp-content/uploads/2016/12/Musica-Reparadora1.jpg" />
                             <Card.Body>
@@ -26,7 +26,7 @@ const FacaParte = () => {
                     </Col>
 
                     <Col md={6}>
-                        <Card>
+                        <Card border="dark">
                             <Card.Header>Faça parte da orquestra</Card.Header>
                             <Card.Img variant="top" src="https://theatromunicipal.org.br/wp-content/uploads/2019/09/OER_Noticias-970x647.jpg" />
                             <Card.Body>

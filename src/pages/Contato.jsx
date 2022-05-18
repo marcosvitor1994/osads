@@ -48,24 +48,24 @@ const Contato = () => {
             <Container>
                 <Row>
                     <Col>
-                        <Card>
+                        <Card border="dark">
                             <Card.Header>Entre em contato com a OSADS</Card.Header>
                             <Card.Body align="left">
                             <Card.Text>
 
-                                <Form onSubmit={handleSubmit}>
+                                <Form onSubmit={handleSubmit} >
 
                                 <Container>
                                 <Row>
                                     
                                             <Col md={6}>
                                             <Form.Group className="mb-3" controlId="formBasicEmail">
-                                                <Form.Label>Email</Form.Label>
+                                                <Form.Label>Email:</Form.Label>
                                                 <Form.Control type="email" {...register("email")} placeholder="examplo@email.com" />                       
                                             </Form.Group>
                                             </Col>
                                             <Col md={6}>
-                                            <Form.Label>Telefone</Form.Label>
+                                            <Form.Label>Telefone:</Form.Label>
                                                 <InputGroup className="mb-3">
                                                     <FormControl
                                                     type="text" 
