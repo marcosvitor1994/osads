@@ -20,6 +20,7 @@ import FacaParteAluno from './pages/facaParte/FacaParteAluno'
 import GroupRoute from './components/GroupRoute'
 import Teste from './pages/Teste'
 import PreCadastroMusico from './pages/facaParte/PreCadastroMusico'
+import GerenteInventario from './pages/Gerente/inventario'
 
 
 const Routers = () => {
@@ -55,6 +56,9 @@ const Routers = () => {
                         <Route path="/orquestra/contatos"  element={<PrivateRoute />}>
                             <Route path="/orquestra/contatos" element={<GerenteContato />} />
                         </Route>
+                        <Route path="/orquestra/inventario"  element={<PrivateRoute />}>
+                            <Route path="/orquestra/inventario" element={<GerenteInventario />} />
+                        </Route>
                         <Route path="/orquestra/alunos"  element={<PrivateRoute />}>
                             <Route path="/orquestra/alunos" element={<GerenteAlunos />} />                    
                         </Route>
@@ -64,7 +68,7 @@ const Routers = () => {
                         <Route path="/profile"  element={<GroupRoute />}>
                             <Route path="/profile"  element={<Profile />} />                    
                         </Route>       
-
+                        
 
                     </Routes>
         </>

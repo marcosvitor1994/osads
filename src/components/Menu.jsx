@@ -52,6 +52,7 @@ const Menu = () => {
 
                                         <NavDropdown.Item><Link className='dropdown-item' to="/orquestra/partituras">Partituras</Link></NavDropdown.Item>
                                         <NavDropdown.Item><Link className='dropdown-item' to="/orquestra/contatos">Caixa de Entrada</Link></NavDropdown.Item>
+                                        <NavDropdown.Item><Link className='dropdown-item' to="/orquestra/inventario">Inventário</Link></NavDropdown.Item>
                                         <NavDropdown.Item><Link className='dropdown-item' to="/orquestra/agenda">Agenda</Link></NavDropdown.Item>
                                         <NavDropdown.Divider />
                                         <NavDropdown.Item><Link className='dropdown-item' to="/orquestra/musicos">Músicos</Link></NavDropdown.Item>

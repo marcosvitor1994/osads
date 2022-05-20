@@ -30,7 +30,7 @@ const FacaParte = () => {
                             <Card.Header>Faça parte da orquestra</Card.Header>
                             <Card.Img variant="top" src="https://theatromunicipal.org.br/wp-content/uploads/2019/09/OER_Noticias-970x647.jpg" />
                             <Card.Body>
-                                <Card.Title>Comtribua com essa obra</Card.Title>
+                                <Card.Title>Contribua com essa obra</Card.Title>
                                 <Card.Text>
                                     Traga seu instrumento e venha fazer parte desta jornada
                                 </Card.Text>
